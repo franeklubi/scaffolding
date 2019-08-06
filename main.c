@@ -9,19 +9,15 @@ typedef struct {
 } HeadPos;
 
 
-HeadPos heGaveMeGoodHeadPeepinOutWhileTheWindowsTinted() {
-    HeadPos h;
-    h.x = 0;
-    h.y = 0;
-    h.op = '\0';
-    h.mod = 0;
+HeadPos genHead() {
+    HeadPos h = {0, 0, '\0', 0};
     return h;
 }
 
 
 int main() {
-    HeadPos r_head_pos = heGaveMeGoodHeadPeepinOutWhileTheWindowsTinted();
-    HeadPos w_head_pos = heGaveMeGoodHeadPeepinOutWhileTheWindowsTinted();
+    HeadPos r_head_pos = genHead();
+    HeadPos w_head_pos = genHead();
 
     FILE* file = fopen("hw.scaf", "r+");
     fclose(file);
