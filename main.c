@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct {
     uint64_t x;
@@ -14,10 +15,30 @@ Head genHead() {
     return h;
 }
 
+
 uint32_t getSize(FILE* file) {
     fseek(file, 0L, SEEK_END);
-    return ftell(file);
+    uint32_t size = ftell(file);
+    rewind(file);
+
+    return size;
 }
+
+
+char* loadFile(FILE* file, uint32_t file_size) {
+    char* start_ptr = (char*) malloc(file_size);
+    for ( uint32_t x = 0; x < file_size; x++ ) {
+        char read_character = fgetc(file);
+        if ( read_character == EOF && x != file_size-1 ) {
+            fprintf(stderr, "Problem with reading file at %i", x);
+        }
+        start_ptr[x] = read_character;
+    }
+
+    return start_ptr;
+}
+
+
 
 int main() {
     Head r_head_pos = genHead();
@@ -25,7 +46,13 @@ int main() {
 
     FILE* file = fopen("hw.scaf", "r");
 
-        int32_t file_len = getSize(file);
+        int32_t file_size = getSize(file);
+        char* start_ptr = loadFile(file, file_size);
+        for ( uint32_t x = 0; x < file_size; x++ ) {
+            printf("%c\n", start_ptr[x]);
+        }
 
+
+    free(start_ptr);
     fclose(file);
 }
