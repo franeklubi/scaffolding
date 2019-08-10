@@ -1,7 +1,7 @@
 
 main: main.c
-	gcc main.c
+	gcc *.c
 
 run: main.c
-	gcc main.c
+	gcc *.c
 	./a.out

@@ -3,19 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct {
-    uint64_t x;
-    uint64_t y;
-    char op;
-    uint64_t mod;
-} Head;
-
-
-Head genHead() {
-    Head h = {0, 0, '\0', 0};
-    return h;
-}
-
+#include "Head.h"
 
 uint32_t getSize(FILE* file) {
     fseek(file, 0L, SEEK_END);
