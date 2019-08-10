@@ -1,20 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #include "Head.h"
 #include "fileHandling.h"
-
-bool interpret(
-    char* buffer_ptr, uint32_t buffer_len, Head r_head, Head w_head
-) {
-
-
-
-
-
-    return true;
-}
+#include "interpreter.h"
 
 
 int main() {
