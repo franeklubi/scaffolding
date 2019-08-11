@@ -5,10 +5,10 @@
 
 
 typedef struct {
-    uint64_t x;
-    uint64_t y;
+    uint32_t x;
+    uint32_t y;
     char op;
-    uint64_t mod;
+    uint32_t mod;
 } Head;
 
 

@@ -18,7 +18,7 @@ int main() {
     bool success = interpret(start_ptr, file_size, r_head, w_head);
 
     if ( !success ) {
-        printf("Some error occured, fuck off");
+        printf("Some error occured, fuck off\n");
     }
 
     free(start_ptr);
