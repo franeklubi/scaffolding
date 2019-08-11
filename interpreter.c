@@ -7,19 +7,18 @@ bool interpret(
 ) {
 
     bool should_end = false;
-    uint32_t index = r_head_ptr->pos;
     Head* current_head_ptr = r_head_ptr;
 
     while ( !should_end ) {
 
         should_end = execute(
-            buffer_ptr, buffer_len, &index,
+            buffer_ptr, buffer_len,
             r_head_ptr, w_head_ptr, current_head_ptr
         );
 
         // printf("Should end?: %i\n", should_end);
 
-        index++;
+        r_head_ptr->pos++;
     }
 
     return true;
@@ -27,14 +26,14 @@ bool interpret(
 
 
 bool execute(
-    char* buffer_ptr, uint32_t* buffer_len, uint32_t* index,
+    char* buffer_ptr, uint32_t* buffer_len,
     Head* r_head_ptr, Head* w_head_ptr, Head* current_head_ptr
 ) {
-    if ( *index > *buffer_len ) {
+    if ( r_head_ptr->pos > *buffer_len ) {
         return true;
     }
 
-    char opcode = buffer_ptr[*index];
+    char opcode = buffer_ptr[r_head_ptr->pos];
     // printf("current opcode: >%c<\n", opcode);
 
     if ( opcode == '\n' ) {
@@ -74,8 +73,8 @@ bool execute(
             break;
 
         case ',':
-            (*index)++;
-            w_head_ptr->mod = buffer_ptr[*index];
+            r_head_ptr->pos++;
+            w_head_ptr->mod = buffer_ptr[r_head_ptr->pos];
             break;
 
         default:

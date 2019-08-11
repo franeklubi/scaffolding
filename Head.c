@@ -2,6 +2,6 @@
 
 
 Head genHead() {
-   Head h = {0, '\0', 0};
+   Head h = {0, '\0'};
    return h;
 }
