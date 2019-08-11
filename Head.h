@@ -5,8 +5,7 @@
 
 
 typedef struct {
-    uint32_t x;
-    uint32_t y;
+    uint32_t pos;
     char op;
     uint32_t mod;
 } Head;

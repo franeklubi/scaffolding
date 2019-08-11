@@ -8,13 +8,16 @@
 #include "Head.h"
 
 
-bool interpret(char* buffer_ptr, uint32_t buffer_len, Head r_head, Head w_head);
+bool interpret(
+    char* buffer_ptr, uint32_t* buffer_len,
+    Head* r_head_ptr, Head* w_head_ptr
+);
 
 
 // execute executes opcode and returns true if the execution should end
 bool execute(
-    char* buffer_ptr, uint32_t buffer_len, uint32_t index,
-    Head r_head, Head w_head
+    char* buffer_ptr, uint32_t* buffer_len, uint32_t* index,
+    Head* r_head_ptr, Head* w_head_ptr, Head* current_head_ptr
 );
 
 
