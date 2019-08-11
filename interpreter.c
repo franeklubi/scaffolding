@@ -29,7 +29,7 @@ bool execute(
     char* buffer_ptr, uint32_t* buffer_len,
     Head* r_head_ptr, Head* w_head_ptr, Head* current_head_ptr
 ) {
-    if ( r_head_ptr->pos > *buffer_len ) {
+    if ( r_head_ptr->pos >= *buffer_len ) {
         return true;
     }
 
@@ -74,6 +74,11 @@ bool execute(
 
         case ',':
             r_head_ptr->pos++;
+
+            if ( r_head_ptr->pos >= *buffer_len ) {
+                return true;
+            }
+
             w_head_ptr->mod = buffer_ptr[r_head_ptr->pos];
             break;
 
