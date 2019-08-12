@@ -62,11 +62,12 @@ bool execute(
             break;
 
         case '<':
-            printf("Go right\n");
+            printf("Go left\n");
             break;
 
         case '>':
-            printf("Go left\n");
+            printf("Go right\n");
+            moveRight(current_head_ptr, buffer_ptr, buffer_len);
             break;
 
         // prints char value of mod
@@ -81,7 +82,7 @@ bool execute(
 
         // adds next mod's numerical value to current mod's numerical value
         case '+':
-            next = getNextOpcode(r_head_ptr, buffer_ptr, buffer_len);
+            next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
 
             if ( next == EOF ) {
                 return true;
@@ -93,7 +94,7 @@ bool execute(
 
 
         case ',':
-            next = getNextOpcode(r_head_ptr, buffer_ptr, buffer_len);
+            next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
 
             if ( next == EOF ) {
                 return true;
@@ -110,14 +111,3 @@ bool execute(
 
     return false;
 }
-
-
-char getNextOpcode(Head* r_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
-    r_head_ptr->pos++;
-
-    if ( r_head_ptr->pos >= *buffer_len ) {
-        return EOF;
-    }
-
-    return buffer_ptr[r_head_ptr->pos];
-};

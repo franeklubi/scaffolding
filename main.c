@@ -9,6 +9,7 @@
 int main() {
     Head r_head = genHead();
     Head w_head = genHead();
+    w_head.destructive = true;
 
     FILE* file = fopen("hw.scaf", "r");
         uint32_t file_size = getSize(file);
