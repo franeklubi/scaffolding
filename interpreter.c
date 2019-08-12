@@ -34,6 +34,7 @@ bool execute(
     }
 
     char opcode = buffer_ptr[r_head_ptr->pos];
+    char next = '\0';
     // printf("current opcode: >%c<\n", opcode);
 
     if ( opcode == '\n' ) {
@@ -68,18 +69,37 @@ bool execute(
             printf("Go left\n");
             break;
 
+        // prints char value of mod
         case '.':
             printf("%c", w_head_ptr->mod);
             break;
 
-        case ',':
-            r_head_ptr->pos++;
+        // prints numeric value of mod
+        case '=':
+            printf("%i", w_head_ptr->mod);
+            break;
 
-            if ( r_head_ptr->pos >= *buffer_len ) {
+        // adds next mod's numerical value to current mod's numerical value
+        case '+':
+            next = getNextOpcode(r_head_ptr, buffer_ptr, buffer_len);
+
+            if ( next == EOF ) {
                 return true;
             }
 
-            w_head_ptr->mod = buffer_ptr[r_head_ptr->pos];
+            w_head_ptr->mod -= 0x30;
+            w_head_ptr->mod += (next-0x30);
+            break;
+
+
+        case ',':
+            next = getNextOpcode(r_head_ptr, buffer_ptr, buffer_len);
+
+            if ( next == EOF ) {
+                return true;
+            }
+
+            w_head_ptr->mod = next;
             break;
 
         default:
@@ -90,3 +110,14 @@ bool execute(
 
     return false;
 }
+
+
+char getNextOpcode(Head* r_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
+    r_head_ptr->pos++;
+
+    if ( r_head_ptr->pos >= *buffer_len ) {
+        return EOF;
+    }
+
+    return buffer_ptr[r_head_ptr->pos];
+};

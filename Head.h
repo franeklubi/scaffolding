@@ -6,7 +6,7 @@
 
 typedef struct {
     uint32_t pos;
-    char mod;
+    uint32_t mod;
 } Head;
 
 
