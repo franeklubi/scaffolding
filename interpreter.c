@@ -63,6 +63,7 @@ bool execute(
 
         case '<':
             printf("Go left\n");
+            moveLeft(current_head_ptr, buffer_ptr, buffer_len);
             break;
 
         case '>':
