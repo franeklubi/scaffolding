@@ -16,6 +16,17 @@ int main() {
         char* start_ptr = loadFile(file, file_size);
     fclose(file);
 
+    for ( uint8_t x = 0; x < file_size; x++ ) {
+        printf("%c", start_ptr[x]);
+    }
+    printf("\n");
+    start_ptr = insert(start_ptr, &file_size, '.', 1);
+    start_ptr = insert(start_ptr, &file_size, 'O', 1);
+    for ( uint8_t x = 0; x < file_size; x++ ) {
+        printf("%c", start_ptr[x]);
+    }
+    printf("\nexecution:\n");
+
     bool success = interpret(start_ptr, &file_size, &r_head, &w_head);
 
     if ( !success ) {
