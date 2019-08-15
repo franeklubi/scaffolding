@@ -20,12 +20,12 @@ int main() {
         printf("%c", start_ptr[x]);
     }
     printf("\n");
-    start_ptr = insert(start_ptr, &file_size, '.', 1);
-    start_ptr = insert(start_ptr, &file_size, 'O', 1);
-    start_ptr = append(start_ptr, &file_size, 'c');
-    start_ptr = append(start_ptr, &file_size, '.');
-    start_ptr = prepend(start_ptr, &file_size, '.');
-    start_ptr = prepend(start_ptr, &file_size, 'W');
+    // start_ptr = insert(start_ptr, &file_size, '.', 1);
+    // start_ptr = insert(start_ptr, &file_size, 'O', 1);
+    // start_ptr = append(start_ptr, &file_size, 'c');
+    // start_ptr = append(start_ptr, &file_size, '.');
+    // start_ptr = prepend(start_ptr, &file_size, '.');
+    // start_ptr = prepend(start_ptr, &file_size, 'W');
     for ( uint8_t x = 0; x < file_size; x++ ) {
         printf("%c", start_ptr[x]);
     }

@@ -36,7 +36,7 @@ bool execute(
     char opcode = buffer_ptr[r_head_ptr->pos];
     char next = '\0';
     uint32_t mul = 1;
-    // printf("current opcode: >%c<\n", opcode);
+    // printf("current opcode: [%c], index[%i]\n", opcode, r_head_ptr->pos);
 
     if ( opcode == '\n' ) {
         return true;
@@ -105,10 +105,21 @@ bool execute(
             mul = 1;
             break;
 
-        // if w_head_ptr's mod value is -ne 0 act as opcode ','
+        // if w_head_ptr's mod value is -ne 0 act as opcode ',',
+        // it also decrements value of buffer_ptr[r_head_ptr->pos-1]
+        // but if /decrementage/ turns out impossible
+        // it just fucks the whole thing up, so be wary where you put '?'
         case '?':
+            next = buffer_ptr[r_head_ptr->pos-1];
+            if ( r_head_ptr->pos == 0 || next == '\n' ) {
+                return true;
+            }
+
+            // decrementing the index before
             if ( w_head_ptr->mod == 0 ) {
                 break;
+            } else {
+                buffer_ptr[r_head_ptr->pos-1]--;
             }
 
         // escape the next character;
