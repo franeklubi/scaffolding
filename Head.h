@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include "fileHandling.h"
+
+
 typedef struct {
     uint32_t pos;
     uint32_t mod;
