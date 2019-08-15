@@ -62,6 +62,7 @@ char* insert(char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index) {
 
         // don't forget to free the temp buffer silly ;)
         free(partial_buffer_ptr);
+        (*buffer_len)--;
 
         return buffer_ptr;
     }
@@ -81,4 +82,20 @@ char* insert(char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index) {
     free(partial_buffer_ptr);
 
     return new_buffer_ptr;
+}
+
+
+char* append(char* buffer_ptr, uint32_t* buffer_len, char c) {
+    (*buffer_len)++;
+    void* new_ptr = realloc(buffer_ptr, *buffer_len);
+    if ( !new_ptr ) {
+        printf("Can't realloc in append\n");
+        (*buffer_len)--;
+        return buffer_ptr;
+    }
+
+    buffer_ptr = (char*) new_ptr;
+    buffer_ptr[*buffer_len-1] = c;
+
+    return buffer_ptr;
 }
