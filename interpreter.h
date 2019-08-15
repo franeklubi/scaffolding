@@ -24,5 +24,8 @@ bool execute(
 // if that fails
 char getNextOpcode(Head* r_head_ptr, char* buffer_ptr, uint32_t* buffer_len);
 
+// isNumber returns true if char represents a number
+bool isNumber(char c);
+
 
 #endif

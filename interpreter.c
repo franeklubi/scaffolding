@@ -81,7 +81,7 @@ bool execute(
             printf("%i", w_head_ptr->mod);
             break;
 
-        // adds next mod's numerical value to current mod's numerical value
+        // adds next mod's numerical value to current mod
         case '+':
             next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
 
@@ -89,11 +89,19 @@ bool execute(
                 return true;
             }
 
-            w_head_ptr->mod -= 0x30;
             w_head_ptr->mod += (next-0x30);
             break;
 
 
+        // if w_head_ptr's mod value is -ne 0 act as opcode ','
+        case '?':
+            if ( w_head_ptr->mod == 0 ) {
+                break;
+            }
+
+        // escape the next character;
+        // also allows for chars representing numbers (48-57) to be loaded into
+        // mod in their char value
         case ',':
             next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
 
@@ -106,9 +114,23 @@ bool execute(
 
         default:
             // printf("Load mod\n");
+
+            // if the char represents a number, load it's numerical value
+            // rather than the char itself
+            if ( isNumber(opcode) ) {
+                opcode -= 0x30;
+            }
             w_head_ptr->mod = opcode;
             break;
     }
 
+    return false;
+}
+
+
+bool isNumber(char c) {
+    if ( c > 47 && c < 58 ) {
+        return true;
+    }
     return false;
 }
