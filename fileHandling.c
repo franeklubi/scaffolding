@@ -1,6 +1,4 @@
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "fileHandling.h"
 
 
 uint32_t getSize(FILE* file) {
@@ -13,7 +11,7 @@ uint32_t getSize(FILE* file) {
 
 
 char* loadFile(FILE* file, uint32_t file_size) {
-    void* temp_start_ptr = (char*) malloc(file_size);
+    void* temp_start_ptr = malloc(file_size);
     if ( !temp_start_ptr ) {
         fprintf(stderr, "Can't malloc in loadFile\n");
         return temp_start_ptr;
@@ -98,4 +96,27 @@ char* append(char* buffer_ptr, uint32_t* buffer_len, char c) {
     buffer_ptr[*buffer_len-1] = c;
 
     return buffer_ptr;
+}
+
+
+char* prepend(char* buffer_ptr, uint32_t* buffer_len, char c) {
+    (*buffer_len)++;
+    void* temp_new_ptr = malloc(*buffer_len);
+    if ( !temp_new_ptr ) {
+        printf("Can't malloc in prepend\n");
+        (*buffer_len)--;
+        return buffer_ptr;
+    }
+    char* new_ptr = (char*) temp_new_ptr;
+
+    // prepending c
+    new_ptr[0] = c;
+
+    for ( uint32_t x = 0; x < *buffer_len-1; x++ ) {
+        new_ptr[x+1] = buffer_ptr[x];
+    }
+
+    free(buffer_ptr);
+
+    return new_ptr;
 }
