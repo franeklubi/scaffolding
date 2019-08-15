@@ -10,7 +10,7 @@
 
 typedef struct {
     uint32_t pos;
-    uint32_t mod;
+    int32_t mod;
     bool destructive;
 } Head;
 
