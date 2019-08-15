@@ -35,6 +35,7 @@ bool execute(
 
     char opcode = buffer_ptr[r_head_ptr->pos];
     char next = '\0';
+    uint32_t mul = 1;
     // printf("current opcode: >%c<\n", opcode);
 
     if ( opcode == '\n' ) {
@@ -81,6 +82,10 @@ bool execute(
             printf("%i", w_head_ptr->mod);
             break;
 
+        // change mul's value so '+' will subtract
+        case '-':
+            mul = -1;
+
         // adds next mod's numerical value to current mod
         case '+':
             next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
@@ -89,9 +94,9 @@ bool execute(
                 return true;
             }
 
-            w_head_ptr->mod += (next-0x30);
+            w_head_ptr->mod += (next-0x30)*mul;
+            mul = 1;
             break;
-
 
         // if w_head_ptr's mod value is -ne 0 act as opcode ','
         case '?':
