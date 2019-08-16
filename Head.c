@@ -59,7 +59,6 @@ char moveLeft(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
         return EOF;
     }
 
-
     current_head_ptr->pos--;
     char next = buffer_ptr[current_head_ptr->pos];
 
@@ -77,4 +76,30 @@ char moveLeft(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
     }
 
     return next;
+}
+
+
+uint32_t lineBeginning(
+    Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len
+) {
+    uint32_t index = current_head_ptr->pos;
+
+    if (
+        index >= *buffer_len
+        || index < 1
+        || buffer_ptr[index] == '\n'
+    ) {
+        return 0;
+    }
+
+    char next;
+    do {
+        index--;
+        next = buffer_ptr[index];
+    } while (
+        next != '\n'
+        && index != 0
+    );
+
+    return current_head_ptr->pos - index;
 }

@@ -68,6 +68,10 @@ bool execute(
             if ( next == EOF ) {
                 return true;
             }
+            return execute(
+                buffer_ptr, buffer_len,
+                r_head_ptr, w_head_ptr, current_head_ptr
+            );
 
             break;
 
