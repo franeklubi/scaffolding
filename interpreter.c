@@ -21,7 +21,8 @@ bool interpret(
         r_head_ptr->pos++;
     }
 
-    return true;
+    // returning 0, as in 0 errors
+    return 0;
 }
 
 
@@ -37,6 +38,12 @@ bool execute(
     char next = '\0';
     uint32_t mul = 1;
     // printf("current opcode: [%c], index[%i]\n", opcode, r_head_ptr->pos);
+
+    if ( opcode == '\n' ) {
+        printf("NEXT OPCODE(%i)> NEWLINE\n", r_head_ptr->pos);
+    } else {
+        printf("NEXT OPCODE(%i)> \"%c\"\n", r_head_ptr->pos, opcode);
+    }
 
     if ( opcode == '\n' ) {
         return true;
@@ -63,16 +70,17 @@ bool execute(
             break;
 
         case '<':
-            // printf("Go left\n");
-            next = moveLeft(current_head_ptr, buffer_ptr, buffer_len);
+            printf("Go left\n");
+
+            next = moveLeft(
+                current_head_ptr, buffer_ptr, buffer_len, w_head_ptr->mod
+            );
             if ( next == EOF ) {
                 return true;
             }
-            return execute(
-                buffer_ptr, buffer_len,
-                r_head_ptr, w_head_ptr, current_head_ptr
-            );
 
+            // subtract from head pos instead of executing recursively
+            current_head_ptr->pos--;
             break;
 
         case '>':
@@ -86,7 +94,7 @@ bool execute(
 
         // prints char value of mod
         case '.':
-            printf("%c", w_head_ptr->mod);
+            printf("SCAF> %c\n", w_head_ptr->mod);
             break;
 
         // prints numeric value of mod
@@ -139,7 +147,7 @@ bool execute(
             break;
 
         default:
-            // printf("Load mod\n");
+            printf("Load mod \"%c\"\n", opcode);
 
             // if the char represents a number, load it's numerical value
             // rather than the char itself

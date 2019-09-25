@@ -30,7 +30,9 @@ char* loadFile(FILE* file, uint32_t file_size) {
 }
 
 
-char* insert(char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index) {
+char* insert(
+    char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index, uint32_t n
+) {
 
     // mitigate this issue by just not giving a fuck
     if ( index >= *buffer_len ) {
@@ -53,7 +55,8 @@ char* insert(char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index) {
     }
 
 
-    (*buffer_len)++;
+    (*buffer_len) += n;
+    printf("JOL KURWA REALLOC TRZYMAJ SIE %i\n", *buffer_len);
     void* temp_new_buffer_ptr = realloc(buffer_ptr, *buffer_len);
     if ( !temp_new_buffer_ptr ) {
         fprintf(stderr, "Can't realloc in insert\n");
@@ -64,16 +67,17 @@ char* insert(char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index) {
 
         return buffer_ptr;
     }
-
     // realloc worked baby
     char* new_buffer_ptr = (char*) temp_new_buffer_ptr;
 
     // replace the index
-    new_buffer_ptr[index] = c;
+    for ( uint32_t x = 0; x < n; x++ ) {
+        new_buffer_ptr[index+x] = c;
+    }
 
     // unwind the partial_buffer_ptr
     for ( uint32_t x = 0; x < *buffer_len-index; x++ ) {
-        new_buffer_ptr[x+index+1] = partial_buffer_ptr[x];
+        new_buffer_ptr[x+index+n] = partial_buffer_ptr[x];
     }
 
     // free the partial_buffer_ptr
@@ -87,7 +91,7 @@ char* append(char* buffer_ptr, uint32_t* buffer_len, char c) {
     (*buffer_len)++;
     void* new_ptr = realloc(buffer_ptr, *buffer_len);
     if ( !new_ptr ) {
-        printf("Can't realloc in append\n");
+        fprintf(stderr, "Can't realloc in append\n");
         (*buffer_len)--;
         return buffer_ptr;
     }
@@ -96,27 +100,4 @@ char* append(char* buffer_ptr, uint32_t* buffer_len, char c) {
     buffer_ptr[*buffer_len-1] = c;
 
     return buffer_ptr;
-}
-
-
-char* prepend(char* buffer_ptr, uint32_t* buffer_len, char c) {
-    (*buffer_len)++;
-    void* temp_new_ptr = malloc(*buffer_len);
-    if ( !temp_new_ptr ) {
-        printf("Can't malloc in prepend\n");
-        (*buffer_len)--;
-        return buffer_ptr;
-    }
-    char* new_ptr = (char*) temp_new_ptr;
-
-    // prepending c
-    new_ptr[0] = c;
-
-    for ( uint32_t x = 0; x < *buffer_len-1; x++ ) {
-        new_ptr[x+1] = buffer_ptr[x];
-    }
-
-    free(buffer_ptr);
-
-    return new_ptr;
 }

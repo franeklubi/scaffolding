@@ -34,7 +34,9 @@ char moveRight(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
     // if reached the end of the line and is indeed destructive
     } else if ( next == '\n' ) {
         // prepend a space before '\n'
-        buffer_ptr = insert(buffer_ptr, buffer_len, ' ', current_head_ptr->pos);
+        buffer_ptr = insert(
+            buffer_ptr, buffer_len, ' ', current_head_ptr->pos, 1
+        );
         return ' ';
     }
 
@@ -42,38 +44,69 @@ char moveRight(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
 };
 
 
-char moveLeft(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
+char moveLeft(
+    Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len, uint32_t n
+) {
 
-    // since the pos is an unsigned value, we don't want to accidentaly
-    // overflow it by decrementing it just yet, do we?
-    if ( current_head_ptr->pos == 0
-        && current_head_ptr->destructive
-    ) {
-        // prepend buffer at position 0 and keep the index intact if destructive
-        buffer_ptr = prepend(buffer_ptr, buffer_len, ' ');
+    uint32_t to_beginning = lineBeginning(
+        current_head_ptr, buffer_ptr, buffer_len
+    );
+
+    // newline_index actually stores the index after the newline
+    int32_t newline_index = (int32_t) current_head_ptr->pos-to_beginning;
+
+    // the index after mod subtraction would look like this
+    int32_t index_after = (int32_t)current_head_ptr->pos;
+    index_after -= n;
+
+
+    printf("GO LEFT INFO:\n");
+    printf("\tindex_after: %i\n", index_after);
+    printf("\tnewline_index: %i\n", newline_index);
+    printf("\tto_beginning: %i\n", to_beginning);
+    printf("\tcurr headpos: %i\n", current_head_ptr->pos);
+    printf("\tcurr destructive: %i\n", current_head_ptr->destructive);
+    printf("\tBUFFER LEN FUCKER: %i\n\n", *buffer_len);
+
+
+    // if the index after moving would be negative prepend the difference
+    // and set current_head_ptr' pos to 0
+    if ( index_after < newline_index && current_head_ptr->destructive ) {
+
+        // if the newline_index is at the beginning of a buffer just prepend it
+        // with the difference of index_after
+        if ( newline_index == 0 ) {
+            buffer_ptr = insert(
+                buffer_ptr, buffer_len, ' ',
+                newline_index, newline_index-index_after
+            );
+
+        // but if newline_index is somewhere else in the buffer,
+        // we need to insert the difference of
+        // newline_index and abs(index_after)
+        } else {
+            printf("insertin\n");
+            buffer_ptr = insert(
+                buffer_ptr, buffer_len, ' ',
+                newline_index, newline_index-index_after
+            );
+        }
+        printf("NEWLINE HERE %i\n\n", newline_index);
+        current_head_ptr->pos = newline_index;
         return ' ';
-    } else if ( current_head_ptr->pos == 0 ) {
 
-        // i mean, we have to prevent overflow at all costs >:(, also it's
-        // meant to trip at the either end of the line
+    // if it's non destructive, well - we have a garotte on hand
+    } else if ( index_after < 0 ) {
+        fprintf(stderr, "Exit due to moveLeft overflow");
+
         return EOF;
     }
 
-    current_head_ptr->pos--;
+    // of course there's always a possibility that we just want to move left
+    // without going out of line's boundaries
+    current_head_ptr->pos = index_after;
     char next = buffer_ptr[current_head_ptr->pos];
 
-    // if reached the end of the line and not destructive
-    if ( next == '\n' && !current_head_ptr->destructive ) {
-        return EOF;
-
-
-    // if reached the end of the line and wants to fucking ram past thru
-    } else if ( next == '\n' ) {
-        // we say nah you stay on the same line and
-        // insert a space after '\n'
-        current_head_ptr->pos++;
-        buffer_ptr = insert(buffer_ptr, buffer_len, ' ', current_head_ptr->pos);
-    }
 
     return next;
 }
@@ -93,13 +126,15 @@ uint32_t lineBeginning(
     }
 
     char next;
-    do {
-        index--;
-        next = buffer_ptr[index];
-    } while (
+    while (
         next != '\n'
         && index != 0
-    );
+    ) {
+        index--;
+        if ( index != 0 ) {
+            next = buffer_ptr[index-1];
+        }
+    }
 
     return current_head_ptr->pos - index;
 }
