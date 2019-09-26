@@ -125,7 +125,7 @@ uint32_t lineBeginning(
         return 0;
     }
 
-    char next;
+    char next = '\0';
     while (
         next != '\n'
         && index != 0
