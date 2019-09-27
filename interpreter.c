@@ -2,7 +2,7 @@
 
 
 bool interpret(
-    char* buffer_ptr, uint32_t* buffer_len,
+    char** buffer_ptr, uint32_t* buffer_len,
     Head* r_head_ptr, Head* w_head_ptr
 ) {
 
@@ -27,14 +27,14 @@ bool interpret(
 
 
 bool execute(
-    char* buffer_ptr, uint32_t* buffer_len,
+    char** buffer_ptr, uint32_t* buffer_len,
     Head* r_head_ptr, Head* w_head_ptr, Head* current_head_ptr
 ) {
     if ( r_head_ptr->pos >= *buffer_len ) {
         return true;
     }
 
-    char opcode = buffer_ptr[r_head_ptr->pos];
+    char opcode = (*buffer_ptr)[r_head_ptr->pos];
     char next = '\0';
     uint32_t mul = 1;
     // printf("current opcode: [%c], index[%i]\n", opcode, r_head_ptr->pos);
@@ -81,6 +81,7 @@ bool execute(
 
             // subtract from head pos instead of executing recursively
             current_head_ptr->pos--;
+
             break;
 
         case '>':
@@ -122,7 +123,7 @@ bool execute(
         // but if /decrementage/ turns out impossible
         // it just fucks the whole thing up, so be wary where you put '?'
         case '?':
-            next = buffer_ptr[r_head_ptr->pos-1];
+            next = *buffer_ptr[r_head_ptr->pos-1];
             if ( r_head_ptr->pos == 0 || next == '\n' ) {
                 return true;
             }

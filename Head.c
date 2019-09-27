@@ -7,7 +7,9 @@ Head genHead() {
 }
 
 
-char moveRight(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
+char moveRight(
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
+) {
     current_head_ptr->pos++;
 
     // if reached the end of the buffer and not destructive
@@ -19,12 +21,12 @@ char moveRight(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
     // if reached the end of the buffer and is destructive
     } else if ( current_head_ptr->pos >= *buffer_len ) {
         // append space before end of buffer
-        buffer_ptr = append(buffer_ptr, buffer_len, ' ');
+        append(buffer_ptr, buffer_len, ' ');
         return ' ';
     }
 
 
-    char next = buffer_ptr[current_head_ptr->pos];
+    char next = *buffer_ptr[current_head_ptr->pos];
 
     // if reached the end of the line and not destructive
     if ( next == '\n' && !current_head_ptr->destructive ) {
@@ -34,7 +36,7 @@ char moveRight(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
     // if reached the end of the line and is indeed destructive
     } else if ( next == '\n' ) {
         // prepend a space before '\n'
-        buffer_ptr = insert(
+        insert(
             buffer_ptr, buffer_len, ' ', current_head_ptr->pos, 1
         );
         return ' ';
@@ -45,7 +47,7 @@ char moveRight(Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len) {
 
 
 char moveLeft(
-    Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 ) {
 
     uint32_t to_beginning = lineBeginning(
@@ -76,7 +78,7 @@ char moveLeft(
         // if the newline_index is at the beginning of a buffer just prepend it
         // with the difference of index_after
         if ( newline_index == 0 ) {
-            buffer_ptr = insert(
+            insert(
                 buffer_ptr, buffer_len, ' ',
                 newline_index, newline_index-index_after
             );
@@ -86,7 +88,7 @@ char moveLeft(
         // newline_index and abs(index_after)
         } else {
             printf("insertin\n");
-            buffer_ptr = insert(
+            insert(
                 buffer_ptr, buffer_len, ' ',
                 newline_index, newline_index-index_after
             );
@@ -97,7 +99,7 @@ char moveLeft(
 
     // if it's non destructive, well - we have a garotte on hand
     } else if ( index_after < 0 ) {
-        fprintf(stderr, "Exit due to moveLeft overflow");
+        fprintf(stderr, "Exit due to moveLeft overflow\n");
 
         return EOF;
     }
@@ -105,7 +107,7 @@ char moveLeft(
     // of course there's always a possibility that we just want to move left
     // without going out of line's boundaries
     current_head_ptr->pos = index_after;
-    char next = buffer_ptr[current_head_ptr->pos];
+    char next = *buffer_ptr[current_head_ptr->pos];
 
 
     return next;
@@ -113,14 +115,14 @@ char moveLeft(
 
 
 uint32_t lineBeginning(
-    Head* current_head_ptr, char* buffer_ptr, uint32_t* buffer_len
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
 ) {
     uint32_t index = current_head_ptr->pos;
 
     if (
         index >= *buffer_len
         || index < 1
-        || buffer_ptr[index] == '\n'
+        || (*buffer_ptr)[index] == '\n'
     ) {
         return 0;
     }
@@ -132,7 +134,7 @@ uint32_t lineBeginning(
     ) {
         index--;
         if ( index != 0 ) {
-            next = buffer_ptr[index-1];
+            next = (*buffer_ptr)[index-1];
         }
     }
 

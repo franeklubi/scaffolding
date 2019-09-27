@@ -15,4 +15,4 @@ prod: main.c
 
 val: main.c
 	make
-	valgrind --leak-check=full --track-origins=yes ./a.out
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./a.out

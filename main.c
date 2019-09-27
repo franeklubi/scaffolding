@@ -16,18 +16,16 @@ int main() {
         char* start_ptr = loadFile(file, file_size);
     fclose(file);
 
+
     printf("\nFirst buffer draw: (%i)\n", file_size);
     for ( uint32_t x = 0; x < file_size; x++ ) {
         printf("%i> \"%c\"\n", x, start_ptr[x]);
     }
-    printf("\n");
-    // start_ptr = insert(start_ptr, &file_size, '.', 1);
-    // start_ptr = insert(start_ptr, &file_size, 'O', 1, 4);
-    // start_ptr = append(start_ptr, &file_size, 'c');
-    // start_ptr = append(start_ptr, &file_size, '.');
+
+
     printf("\nexecution:\n");
 
-    bool error_code = interpret(start_ptr, &file_size, &r_head, &w_head);
+    bool error_code = interpret(&start_ptr, &file_size, &r_head, &w_head);
 
     printf("\nLast buffer draw: (%i)\n", file_size);
     for ( uint32_t x = 0; x < file_size; x++ ) {

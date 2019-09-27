@@ -30,74 +30,61 @@ char* loadFile(FILE* file, uint32_t file_size) {
 }
 
 
-char* insert(
-    char* buffer_ptr, uint32_t* buffer_len, char c, uint32_t index, uint32_t n
+bool insert(
+    char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t index, uint32_t n
 ) {
 
     // mitigate this issue by just not giving a fuck
     if ( index >= *buffer_len ) {
         fprintf(stderr, "Index bigger than buffer len in insert\n");
-        return buffer_ptr;
+        return false;
     }
 
-    // make another buffer to store the values after index, also - the naming
-    // is fine, it's a temporary pointer to a temp buffer
-    void* temp_partial_buffer_ptr = malloc(*buffer_len-index);
-    if ( !temp_partial_buffer_ptr ) {
-        fprintf(stderr, "Can't malloc temp buffer in insert\n");
-        return buffer_ptr;
-    }
-    char* partial_buffer_ptr = (char*) temp_partial_buffer_ptr;
-
-    // copy temp values
-    for ( uint32_t x = 0; x < *buffer_len - index; x++ ) {
-        partial_buffer_ptr[x] = buffer_ptr[x+index];
-    }
-
-
-    (*buffer_len) += n;
-    printf("JOL KURWA REALLOC TRZYMAJ SIE %i\n", *buffer_len);
-    void* temp_new_buffer_ptr = realloc(buffer_ptr, *buffer_len);
+    // malloc another buffer with the size of buffer_len+n
+    (*buffer_len)+=n;
+    void* temp_new_buffer_ptr = malloc(*buffer_len);
     if ( !temp_new_buffer_ptr ) {
-        fprintf(stderr, "Can't realloc in insert\n");
-
-        // don't forget to free the temp buffer silly ;)
-        free(partial_buffer_ptr);
-        (*buffer_len)--;
-
-        return buffer_ptr;
+        fprintf(stderr, "Can't malloc temp buffer in insert\n");
+        (*buffer_len)-=n;
+        return false;
     }
-    // realloc worked baby
     char* new_buffer_ptr = (char*) temp_new_buffer_ptr;
 
-    // replace the index
+
+    // insert n of chars c starting from index in new buffer
     for ( uint32_t x = 0; x < n; x++ ) {
         new_buffer_ptr[index+x] = c;
     }
 
-    // unwind the partial_buffer_ptr
-    for ( uint32_t x = 0; x < *buffer_len-index; x++ ) {
-        new_buffer_ptr[x+index+n] = partial_buffer_ptr[x];
+
+    // copy the left part of the memory (if there is any to copy ofc)
+    if ( index > 0 ) {
+        memcpy(new_buffer_ptr, *buffer_ptr, index);
     }
 
-    // free the partial_buffer_ptr
-    free(partial_buffer_ptr);
+    // copy the right part of the memory
+    memcpy(&new_buffer_ptr[index+n], &(*buffer_ptr)[index], (*buffer_len)-n-index);
 
-    return new_buffer_ptr;
+
+    free(*buffer_ptr);
+
+    *buffer_ptr = new_buffer_ptr;
+
+    return true;
 }
 
 
-char* append(char* buffer_ptr, uint32_t* buffer_len, char c) {
+bool append(char** buffer_ptr, uint32_t* buffer_len, char c) {
     (*buffer_len)++;
-    void* new_ptr = realloc(buffer_ptr, *buffer_len);
+    void* new_ptr = realloc(*buffer_ptr, *buffer_len);
     if ( !new_ptr ) {
         fprintf(stderr, "Can't realloc in append\n");
         (*buffer_len)--;
-        return buffer_ptr;
+        return false;
     }
 
-    buffer_ptr = (char*) new_ptr;
-    buffer_ptr[*buffer_len-1] = c;
+    *buffer_ptr = (char*) new_ptr;
+    *buffer_ptr[*buffer_len-1] = c;
 
-    return buffer_ptr;
+    return true;
 }
