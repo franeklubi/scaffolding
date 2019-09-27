@@ -21,7 +21,7 @@ char moveRight(
     // if reached the end of the buffer and is destructive
     } else if ( current_head_ptr->pos >= *buffer_len ) {
         // append space before end of buffer
-        append(buffer_ptr, buffer_len, ' ');
+        append(buffer_ptr, buffer_len, ' ', 1);
         return ' ';
     }
 

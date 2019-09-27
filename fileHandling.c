@@ -74,17 +74,22 @@ bool insert(
 }
 
 
-bool append(char** buffer_ptr, uint32_t* buffer_len, char c) {
-    (*buffer_len)++;
-    void* new_ptr = realloc(*buffer_ptr, *buffer_len);
-    if ( !new_ptr ) {
+bool append(char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t n) {
+    (*buffer_len)+=n;
+    void* temp_new_buffer_ptr = realloc(*buffer_ptr, *buffer_len);
+    if ( !temp_new_buffer_ptr ) {
         fprintf(stderr, "Can't realloc in append\n");
-        (*buffer_len)--;
+        (*buffer_len)-=n;
         return false;
     }
+    char* new_buffer_ptr = (char*) temp_new_buffer_ptr;
 
-    *buffer_ptr = (char*) new_ptr;
-    *buffer_ptr[*buffer_len-1] = c;
+    *buffer_ptr = new_buffer_ptr;
+
+    for ( uint32_t x = 0; x < n; x++ ) {
+        (*buffer_ptr)[*buffer_len-n+x] = c;
+    }
+
 
     return true;
 }
