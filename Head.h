@@ -34,9 +34,17 @@ char moveLeft(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
-// returns how many chars would it take to get to the beginning of the line
+// lineBeginning returns how many chars are available between head's pos and
+// the beginning of the line
 uint32_t lineBeginning(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
 );
+
+// lineEnd returns how many chars are available between head's pos and
+// the end of the line
+uint32_t lineEnd(
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
+);
+
 
 #endif

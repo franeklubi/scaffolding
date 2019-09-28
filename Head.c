@@ -122,21 +122,49 @@ uint32_t lineBeginning(
     if (
         index >= *buffer_len
         || index < 1
-        || (*buffer_ptr)[index] == '\n'
+        || (*buffer_ptr)[index-1] == '\n'
     ) {
         return 0;
     }
 
-    char next = '\0';
-    while (
-        next != '\n'
-        && index != 0
-    ) {
+    char next;
+    do {
         index--;
-        if ( index != 0 ) {
+        if ( index > 0 ) {
             next = (*buffer_ptr)[index-1];
         }
-    }
+    } while (
+        next != '\n'
+        && index > 0
+    );
 
     return current_head_ptr->pos - index;
+}
+
+
+uint32_t lineEnd(
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
+) {
+    uint32_t index = current_head_ptr->pos;
+
+    if (
+        index >= *buffer_len
+        || index < 0
+        || (*buffer_ptr)[index+1] == '\n'
+    ) {
+        return 0;
+    }
+
+    char next;
+    do {
+        index++;
+        if ( index < *buffer_len-1 ) {
+            next = (*buffer_ptr)[index+1];
+        }
+    } while (
+        next != '\n'
+        && index < *buffer_len-1
+    );
+
+    return (current_head_ptr->pos - index) * -1;
 }
