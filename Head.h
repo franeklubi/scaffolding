@@ -44,11 +44,13 @@ uint32_t _lineEdgeCounter(
 
 // lineBeginning returns how many chars are available between head's pos and
 // the beginning of the line
-#define lineBeginning(x, y, z)  _lineEdgeCounter(x, y, z, true)
+#define lineBeginning(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR) \
+    _lineEdgeCounter(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR, true)
 
 // lineEnd returns how many chars are available between head's pos and
 // the end of the line
-#define lineEnd(x, y, z)  _lineEdgeCounter(x, y, z, false)
+#define lineEnd(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR) \
+    _lineEdgeCounter(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR, false)
 
 
 #endif
