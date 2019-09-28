@@ -114,19 +114,6 @@ char moveLeft(
 }
 
 
-uint32_t lineBeginning(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
-) {
-    return _lineEdgeCounter(current_head_ptr, buffer_ptr, buffer_len, true);
-}
-
-
-uint32_t lineEnd(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
-) {
-    return _lineEdgeCounter(current_head_ptr, buffer_ptr, buffer_len, false);
-}
-
 uint32_t _lineEdgeCounter(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len,
     bool direction

@@ -34,24 +34,21 @@ char moveLeft(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
-// lineBeginning returns how many chars are available between head's pos and
-// the beginning of the line
-uint32_t lineBeginning(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
-);
-
-// lineEnd returns how many chars are available between head's pos and
-// the end of the line
-uint32_t lineEnd(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
-);
-
+// INSTEAD OF USING _lineEdgeCounter USE lineBeginning or lineEnd
 // _lineEdgeCounter returns how many chars are available between head's pos and
 // the beginning or end of the line, depending on the direction set
 uint32_t _lineEdgeCounter(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len,
     bool direction  // true means lineBeginning, false means lineEnd
 );
+
+// lineBeginning returns how many chars are available between head's pos and
+// the beginning of the line
+#define lineBeginning(x, y, z)  _lineEdgeCounter(x, y, z, true)
+
+// lineEnd returns how many chars are available between head's pos and
+// the end of the line
+#define lineEnd(x, y, z)  _lineEdgeCounter(x, y, z, false)
 
 
 #endif
