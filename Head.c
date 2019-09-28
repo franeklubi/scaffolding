@@ -117,54 +117,56 @@ char moveLeft(
 uint32_t lineBeginning(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
 ) {
-    uint32_t index = current_head_ptr->pos;
-
-    if (
-        index >= *buffer_len
-        || index < 1
-        || (*buffer_ptr)[index-1] == '\n'
-    ) {
-        return 0;
-    }
-
-    char next;
-    do {
-        index--;
-        if ( index > 0 ) {
-            next = (*buffer_ptr)[index-1];
-        }
-    } while (
-        next != '\n'
-        && index > 0
-    );
-
-    return current_head_ptr->pos - index;
+    return _lineEdgeCounter(current_head_ptr, buffer_ptr, buffer_len, true);
 }
 
 
 uint32_t lineEnd(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
 ) {
+    return _lineEdgeCounter(current_head_ptr, buffer_ptr, buffer_len, false);
+}
+
+uint32_t _lineEdgeCounter(
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len,
+    bool direction
+) {
+    int8_t d = -1;
+    if ( direction ) {
+        d = 1;
+    }
+
     uint32_t index = current_head_ptr->pos;
 
     if (
         index >= *buffer_len
-        || index < 0
-        || (*buffer_ptr)[index+1] == '\n'
+        || index < direction  // direction is still an int, right?
+        || (*buffer_ptr)[index-d] == '\n'
     ) {
         return 0;
     }
 
     char next;
     do {
-        index++;
-        if ( index < *buffer_len-1 ) {
-            next = (*buffer_ptr)[index+1];
+        index-=d;
+
+        if ( direction ) {
+            if ( index > 0 ) {
+                next = (*buffer_ptr)[index-1];
+            }
+        } else {
+            if ( index < *buffer_len-1 ) {
+                next = (*buffer_ptr)[index-d];
+            }
         }
     } while (
         next != '\n'
-        && index < *buffer_len-1
+        && (
+            direction?
+                ( index > 0 )
+                : ( index < *buffer_len-1 )
+        )
     );
 
-    return (current_head_ptr->pos - index) * -1;
+    return (current_head_ptr->pos - index) * d;
 }
