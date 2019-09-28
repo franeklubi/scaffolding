@@ -21,17 +21,20 @@ int main() {
     for ( uint32_t x = 0; x < file_size; x++ ) {
         printf("%i> \"%c\"\n", x, start_ptr[x]);
     }
+    printf("\n");
 
 
-    printf("\nexecution:\n");
+    printf("execution:\n");
 
     bool error_code = interpret(&start_ptr, &file_size, &r_head, &w_head);
+
 
     printf("\nLast buffer draw: (%i)\n", file_size);
     for ( uint32_t x = 0; x < file_size; x++ ) {
         printf("%i> \"%c\"\n", x, start_ptr[x]);
     }
     printf("\n");
+
 
     free(start_ptr);
 

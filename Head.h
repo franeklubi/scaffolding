@@ -23,7 +23,7 @@ Head genHead();
 // however - if destructive, it will prepend space before newline on the right
 // or the end of the buffer, effectively extending it
 char moveRight(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
 // moveLeft subtracts n from head's pos and returns mod it's standing on

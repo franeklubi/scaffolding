@@ -85,11 +85,17 @@ bool execute(
             break;
 
         case '>':
-            // printf("Go right\n");
-            next = moveRight(current_head_ptr, buffer_ptr, buffer_len);
+            printf("Go right\n");
+
+            next = moveRight(
+                current_head_ptr, buffer_ptr, buffer_len, w_head_ptr->mod
+            );
             if ( next == EOF ) {
                 return true;
             }
+
+            // subtract from head pos instead of executing recursively
+            current_head_ptr->pos--;
 
             break;
 
@@ -100,7 +106,7 @@ bool execute(
 
         // prints numeric value of mod
         case '=':
-            printf("%i", w_head_ptr->mod);
+            printf("SCAF= %i\n", w_head_ptr->mod);
             break;
 
         // change mul's value so '+' will subtract
@@ -109,7 +115,7 @@ bool execute(
 
         // adds next mod's numerical value to current mod
         case '+':
-            next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
+            next = moveRight(r_head_ptr, buffer_ptr, buffer_len, 1);
             if ( next == EOF ) {
                 return true;
             }
@@ -139,7 +145,7 @@ bool execute(
         // also allows for chars representing numbers (48-57) to be loaded into
         // mod in their char value
         case ',':
-            next = moveRight(r_head_ptr, buffer_ptr, buffer_len);
+            next = moveRight(r_head_ptr, buffer_ptr, buffer_len, 1);
             if ( next == EOF ) {
                 return true;
             }
