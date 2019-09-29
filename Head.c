@@ -137,13 +137,21 @@ uint32_t _lineEdgeCounter(
 
     if (
         index >= *buffer_len
-        || index < direction  // direction is still an int, right?
+        || index < 0
+        || (
+            direction?(
+                index < 1
+            ):(
+                index == *buffer_len-1
+            )
+        )
         || (*buffer_ptr)[index-d] == '\n'
     ) {
         return 0;
     }
 
-    char next;
+
+    char next = '\0';
     do {
         index-=d;
 
@@ -153,15 +161,17 @@ uint32_t _lineEdgeCounter(
             }
         } else {
             if ( index < *buffer_len-1 ) {
-                next = (*buffer_ptr)[index-d];
+                next = (*buffer_ptr)[index+1];
             }
         }
     } while (
         next != '\n'
         && (
-            direction?
-                ( index > 0 )
-                : ( index < *buffer_len-1 )
+            direction?(
+                    index > 0
+                ):(
+                    index < *buffer_len-1
+                )
         )
     );
 
