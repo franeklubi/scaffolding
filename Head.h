@@ -34,6 +34,13 @@ char moveLeft(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
+// moveDown moves the cursor n lines down keeping the same pos within a line
+// if destructive creates a new line,
+// if not destructive, and there's no line already created below, return EOF
+char moveDown(
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+);
+
 // INSTEAD OF USING _lineEdgeCounter USE lineBeginning or lineEnd
 // _lineEdgeCounter returns how many chars are available between head's pos and
 // the beginning or end of the line, depending on the direction set

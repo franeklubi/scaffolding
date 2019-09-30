@@ -63,6 +63,16 @@ bool execute(
 
         case '\\':
             printf("Go down\n");
+
+            next = moveDown(
+                current_head_ptr, buffer_ptr, buffer_len, w_head_ptr->mod
+            );
+            if ( next == EOF ) {
+                printf("YOL EOF");
+                return true;
+            }
+
+            current_head_ptr->pos--;
             break;
 
         case '/':

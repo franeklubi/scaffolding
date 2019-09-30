@@ -124,6 +124,13 @@ char moveLeft(
 }
 
 
+char moveDown(
+    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+) {
+    return EOF;
+}
+
+
 uint32_t _lineEdgeCounter(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len,
     bool direction
