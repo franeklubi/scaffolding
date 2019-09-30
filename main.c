@@ -14,10 +14,18 @@ int main() {
     FILE* file = fopen("down.scaf", "r");
         uint32_t file_size = getSize(file);
         char* start_ptr = loadFile(file, file_size);
-
-        Lines* lines_buffer = dissectLines(start_ptr, file_size);
     fclose(file);
 
+    Lines* lines_buffer = dissectLines(start_ptr, file_size);
+    free(start_ptr);
+    if ( !lines_buffer ) {
+        fprintf(stderr, "Error with creating lines_buffer\n");
+        return 1;
+    }
+
+    for ( int x = 0; x < lines_buffer->no_lines; x++ ) {
+        printf("LINE %i LEN> %i\n", x, lines_buffer->lines_len[x]);
+    }
 
     // printf("\nFirst buffer draw: (%i)\n", file_size);
     // for ( uint32_t x = 0; x < file_size; x++ ) {
@@ -36,9 +44,6 @@ int main() {
     //     printf("%i> \"%c\"\n", x, start_ptr[x]);
     // }
     // printf("\n");
-    //
-    //
-    // free(start_ptr);
 
 
     // return error_code;

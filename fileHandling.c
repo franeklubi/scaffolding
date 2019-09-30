@@ -31,7 +31,7 @@ char* loadFile(FILE* file, uint32_t file_size) {
 
 
 Lines* dissectLines(char* buffer_ptr, uint32_t buffer_len) {
-    Lines l;
+    Lines* l = malloc(sizeof(Lines));
 
     if ( buffer_len == 0 ) {
         fprintf(stderr, "Buffer length 0 in dissectLines\n");
@@ -45,7 +45,7 @@ Lines* dissectLines(char* buffer_ptr, uint32_t buffer_len) {
             no_lines++;
         }
     }
-    l.no_lines = no_lines;
+    l->no_lines = no_lines;
 
 
     // allocate memory to store the length of each line
@@ -54,11 +54,24 @@ Lines* dissectLines(char* buffer_ptr, uint32_t buffer_len) {
         fprintf(stderr, "Can't malloc in dissectLines\n");
         return NULL;
     }
-    l.lines_len = (uint32_t*) temp_lines_len;
+    l->lines_len = (uint32_t*) temp_lines_len;
 
 
-    Lines* l_ptr = &l;
-    return l_ptr;
+    // determine each line's length
+    uint32_t len = 0;
+    uint32_t curr_line = 0;
+    for ( uint32_t x = 0; x < buffer_len; x++ ) {
+        if ( buffer_ptr[x] == '\n' ) {
+            l->lines_len[curr_line] = len;
+            curr_line++;
+            len = 0;
+        } else {
+            len++;
+        }
+    }
+    l->lines_len[curr_line] = len;
+
+    return l;
 }
 
 
