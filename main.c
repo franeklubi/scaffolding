@@ -7,37 +7,40 @@
 
 
 int main() {
-    Head r_head = genHead();
-    Head w_head = genHead();
-    w_head.destructive = true;
+    // Head r_head = genHead();
+    // Head w_head = genHead();
+    // w_head.destructive = true;
 
     FILE* file = fopen("down.scaf", "r");
         uint32_t file_size = getSize(file);
         char* start_ptr = loadFile(file, file_size);
+
+        Lines* lines_buffer = dissectLines(start_ptr, file_size);
     fclose(file);
 
 
-    printf("\nFirst buffer draw: (%i)\n", file_size);
-    for ( uint32_t x = 0; x < file_size; x++ ) {
-        printf("%i> \"%c\"\n", x, start_ptr[x]);
-    }
-    printf("\n");
+    // printf("\nFirst buffer draw: (%i)\n", file_size);
+    // for ( uint32_t x = 0; x < file_size; x++ ) {
+    //     printf("%i> \"%c\"\n", x, start_ptr[x]);
+    // }
+    // printf("\n");
+    //
+    //
+    // // printf("execution:\n");
+    //
+    // bool error_code = interpret(&start_ptr, &file_size, &r_head, &w_head);
+    //
+    //
+    // printf("\nLast buffer draw: (%i)\n", file_size);
+    // for ( uint32_t x = 0; x < file_size; x++ ) {
+    //     printf("%i> \"%c\"\n", x, start_ptr[x]);
+    // }
+    // printf("\n");
+    //
+    //
+    // free(start_ptr);
 
 
-    printf("execution:\n");
-
-    bool error_code = interpret(&start_ptr, &file_size, &r_head, &w_head);
-
-
-    printf("\nLast buffer draw: (%i)\n", file_size);
-    for ( uint32_t x = 0; x < file_size; x++ ) {
-        printf("%i> \"%c\"\n", x, start_ptr[x]);
-    }
-    printf("\n");
-
-
-    free(start_ptr);
-
-
-    return error_code;
+    // return error_code;
+    return 0;
 }

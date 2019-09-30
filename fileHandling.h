@@ -8,11 +8,21 @@
 #include <string.h>
 
 
+typedef struct {
+    char* lines;
+    int32_t no_lines;
+    uint32_t* lines_len;
+} Lines;
+
+
 // getSize returns file size
 uint32_t getSize(FILE* file);
 
 // loadFile loads file into a char buffer
 char* loadFile(FILE* file, uint32_t file_size);
+
+
+Lines* dissectLines(char* buffer_ptr, uint32_t buffer_len);
 
 // insert inserts n chars at specified location in the buffer,
 // returns true if the operation was successful, false otherwise
