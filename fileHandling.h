@@ -15,6 +15,9 @@ typedef struct {
 } Lines;
 
 
+// freeLines frees allocated memory in Lines* struct
+void freeLines(Lines* lines_ptr);
+
 // getSize returns file size
 uint32_t getSize(FILE* file);
 

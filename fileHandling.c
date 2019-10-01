@@ -164,3 +164,15 @@ bool append(char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t n) {
 
     return true;
 }
+
+
+void freeLines(Lines* lines_ptr) {
+    for ( uint32_t x = 0; x < lines_ptr->no_lines; x++ ) {
+        free(lines_ptr->lines[x]);
+    }
+    free(lines_ptr->lines);
+
+    free(lines_ptr->lines_len);
+
+    free(lines_ptr);
+}

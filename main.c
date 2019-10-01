@@ -31,6 +31,8 @@ int main() {
         printf("\n");
     }
 
+    freeLines(lines_buffer);
+
     // printf("\nFirst buffer draw: (%i)\n", file_size);
     // for ( uint32_t x = 0; x < file_size; x++ ) {
     //     printf("%i> \"%c\"\n", x, start_ptr[x]);
