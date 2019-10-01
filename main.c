@@ -24,7 +24,11 @@ int main() {
     }
 
     for ( int x = 0; x < lines_buffer->no_lines; x++ ) {
-        printf("LINE %i LEN> %i\n", x, lines_buffer->lines_len[x]);
+        // printf("LINE %i LEN> %i\n", x, lines_buffer->lines_len[x]);
+        for ( int y = 0; y < lines_buffer->lines_len[x]; y++ ) {
+            printf("%c", lines_buffer->lines[x][y]);
+        }
+        printf("\n");
     }
 
     // printf("\nFirst buffer draw: (%i)\n", file_size);
