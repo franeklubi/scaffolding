@@ -25,7 +25,7 @@ Head genHead();
 // however - if destructive, it will prepend space before newline on the right
 // or the end of the buffer, effectively extending it
 char moveRight(
-    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
 );
 
 // moveLeft subtracts n from head's pos and returns mod it's standing on
@@ -33,14 +33,14 @@ char moveRight(
 // however - if destructive, it will insert space after newline on the left
 // or the beginning of the buffer, effectively extending it
 char moveLeft(
-    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
 );
 
 // moveDown moves the cursor n lines down keeping the same pos within a line
 // if destructive creates a new line,
 // if not destructive, and there's no line already created below, return EOF
 char moveDown(
-    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
 );
 
 // INSTEAD OF USING _lineEdgeCounter USE lineBeginning or lineEnd
@@ -61,6 +61,9 @@ int32_t _lineEdgeCounter(
 // the end of the line
 #define lineEnd(LINES_PTR, HEAD_PTR) \
     _lineEdgeCounter(LINES_PTR, HEAD_PTR, false)
+
+
+bool isLegalPosition(Lines* buffer_ptr, Head* head_ptr);
 
 
 #endif

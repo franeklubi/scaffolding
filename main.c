@@ -32,10 +32,19 @@ int main() {
         }
         printf("\"\n");
     }
-
+    printf("\n");
 
     uint8_t error_code = interpret(lines_buffer, &r_head, &w_head);
 
+    printf("\n");
+    printf("\nLast buffer draw:\n");
+    for ( int x = 0; x < lines_buffer->no_lines; x++ ) {
+        printf("LINE(%x) LEN(%x)> \"", x, lines_buffer->lines_len[x]);
+        for ( int y = 0; y < lines_buffer->lines_len[x]; y++ ) {
+            printf("%c", lines_buffer->lines[x][y]);
+        }
+        printf("\"\n");
+    }
 
     freeLines(lines_buffer);
 

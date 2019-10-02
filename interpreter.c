@@ -24,17 +24,13 @@ bool execute(
     Lines* buffer_ptr,
     Head* r_head_ptr, Head* w_head_ptr, Head* curr_head_ptr
 ) {
-    if (
-        curr_head_ptr->pos_y >= buffer_ptr->no_lines
-        || curr_head_ptr->pos_x >= buffer_ptr->lines_len[curr_head_ptr->pos_y]
-    ) {
+    if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
         return true;
     }
 
     char opcode = buffer_ptr->lines[r_head_ptr->pos_y][r_head_ptr->pos_x];
     char next = '\0';
     uint32_t mul = 1;
-    // printf("current opcode: [%c], index[%i]\n", opcode, r_head_ptr->pos);
 
     printf("NEXT OPCODE(%i)> \"%c\"\n", r_head_ptr->pos_x, opcode);
 
@@ -54,15 +50,13 @@ bool execute(
         case '\\':
             printf("Go down\n");
 
-            // next = moveDown(
-            //     curr_head_ptr, buffer_ptr, buffer_len, w_head_ptr->mod
-            // );
-            // if ( next == EOF ) {
-            //     printf("YOL EOF");
-            //     return true;
-            // }
-            //
-            // curr_head_ptr->pos--;
+            next = moveDown(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            if ( next == EOF ) {
+                printf("YOL EOF");
+                return true;
+            }
+
+            curr_head_ptr->pos_x--;
             break;
 
         case '/':
@@ -72,30 +66,26 @@ bool execute(
         case '<':
             printf("Go left\n");
 
-            // next = moveLeft(
-            //     curr_head_ptr, buffer_ptr, buffer_len, w_head_ptr->mod
-            // );
-            // if ( next == EOF ) {
-            //     return true;
-            // }
-            //
-            // // subtract from head pos instead of executing recursively
-            // curr_head_ptr->pos--;
+            next = moveLeft(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            if ( next == EOF ) {
+                return true;
+            }
+
+            // subtract from head pos instead of executing recursively
+            curr_head_ptr->pos_x--;
 
             break;
 
         case '>':
             printf("Go right\n");
 
-            // next = moveRight(
-            //     curr_head_ptr, buffer_ptr, buffer_len, w_head_ptr->mod
-            // );
-            // if ( next == EOF ) {
-            //     return true;
-            // }
-            //
-            // // subtract from head pos instead of executing recursively
-            // curr_head_ptr->pos--;
+            next = moveRight(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            if ( next == EOF ) {
+                return true;
+            }
+
+            // subtract from head pos instead of executing recursively
+            curr_head_ptr->pos_x--;
 
             break;
 
@@ -115,12 +105,12 @@ bool execute(
 
         // adds next mod's numerical value to current mod
         case '+':
-            // next = moveRight(r_head_ptr, buffer_ptr, buffer_len, 1);
-            // if ( next == EOF ) {
-            //     return true;
-            // }
-            //
-            // w_head_ptr->mod += (next-0x30)*mul;
+            next = moveRight(buffer_ptr, r_head_ptr, w_head_ptr->mod);
+            if ( next == EOF ) {
+                return true;
+            }
+
+            w_head_ptr->mod += (next-0x30)*mul;
             mul = 1;
             break;
 
@@ -145,12 +135,12 @@ bool execute(
         // also allows for chars representing numbers (48-57) to be loaded into
         // mod in their char value
         case ',':
-            // next = moveRight(r_head_ptr, buffer_ptr, buffer_len, 1);
-            // if ( next == EOF ) {
-            //     return true;
-            // }
-            //
-            // w_head_ptr->mod = next;
+            next = moveRight(buffer_ptr, curr_head_ptr, 1);
+            if ( next == EOF ) {
+                return true;
+            }
+
+            w_head_ptr->mod = next;
             break;
 
         default:
