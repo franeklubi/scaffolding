@@ -64,7 +64,7 @@ char moveRight(
         return OOF;
     }
 
-    // of course there's always a possibility that we just want to move left
+    // of course there's always a possibility that we just want to move right
     // without going out of line's boundaries
     current_head_ptr->pos = index_after;
     char next = *buffer_ptr[current_head_ptr->pos];
@@ -136,9 +136,7 @@ char moveDown(
 int32_t _lineEdgeCounter(Lines* buffer_ptr, Head* head_ptr, bool direction) {
     // testing if the head is out of bounds
     if (
-        head_ptr->pos_x < 0
-        || head_ptr->pos_y < 0
-        || head_ptr->pos_y >= buffer_ptr->no_lines
+        head_ptr->pos_y >= buffer_ptr->no_lines
         || head_ptr->pos_x >= buffer_ptr->lines_len[head_ptr->pos_y]
     ) {
         fprintf(stderr, "Out of bounds in _lineEdgeCounter\n");

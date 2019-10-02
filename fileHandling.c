@@ -104,10 +104,9 @@ Lines* dissectLines(char* buffer_ptr, uint32_t buffer_len) {
 bool insert(
     char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t index, uint32_t n
 ) {
-
-    // mitigate this issue by just not giving a fuck
+    // well you certainly can't insert here
     if ( index >= *buffer_len ) {
-        fprintf(stderr, "Index bigger than buffer len in insert\n");
+        fprintf(stderr, "Trying to insert outside of bounds\n");
         return false;
     }
 
