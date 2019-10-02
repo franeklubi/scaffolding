@@ -23,34 +23,17 @@ int main() {
         return 1;
     }
 
+    printf("\nFirst buffer draw:\n");
     for ( int x = 0; x < lines_buffer->no_lines; x++ ) {
-        // printf("LINE %i LEN> %i\n", x, lines_buffer->lines_len[x]);
+        printf("LINE(%x) LEN(%x)> \"", x, lines_buffer->lines_len[x]);
         for ( int y = 0; y < lines_buffer->lines_len[x]; y++ ) {
             printf("%c", lines_buffer->lines[x][y]);
         }
-        printf("\n");
+        printf("\"\n");
     }
 
+
     freeLines(lines_buffer);
-
-    // printf("\nFirst buffer draw: (%i)\n", file_size);
-    // for ( uint32_t x = 0; x < file_size; x++ ) {
-    //     printf("%i> \"%c\"\n", x, start_ptr[x]);
-    // }
-    // printf("\n");
-    //
-    //
-    // // printf("execution:\n");
-    //
-    // bool error_code = interpret(&start_ptr, &file_size, &r_head, &w_head);
-    //
-    //
-    // printf("\nLast buffer draw: (%i)\n", file_size);
-    // for ( uint32_t x = 0; x < file_size; x++ ) {
-    //     printf("%i> \"%c\"\n", x, start_ptr[x]);
-    // }
-    // printf("\n");
-
 
     // return error_code;
     return 0;

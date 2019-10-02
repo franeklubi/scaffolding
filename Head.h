@@ -10,6 +10,8 @@
 
 typedef struct {
     uint32_t pos;
+    uint32_t pos_x;
+    uint32_t pos_y;
     int32_t mod;
     bool destructive;
 } Head;
@@ -44,20 +46,21 @@ char moveDown(
 // INSTEAD OF USING _lineEdgeCounter USE lineBeginning or lineEnd
 // _lineEdgeCounter returns how many chars are available between head's pos and
 // the beginning or end of the line, depending on the direction set
-uint32_t _lineEdgeCounter(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len,
+// will return -1 if out of bounds
+int32_t _lineEdgeCounter(
+    Lines* buffer_ptr, Head* head_ptr,
     bool direction  // true means lineBeginning, false means lineEnd
 );
 
 // lineBeginning returns how many chars are available between head's pos and
 // the beginning of the line
-#define lineBeginning(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR) \
-    _lineEdgeCounter(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR, true)
+#define lineBeginning(LINES_PTR, HEAD_PTR) \
+    _lineEdgeCounter(LINES_PTR, HEAD_PTR, true)
 
 // lineEnd returns how many chars are available between head's pos and
 // the end of the line
-#define lineEnd(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR) \
-    _lineEdgeCounter(HEAD_PTR, BUFFER_PTR_PTR, BUFFER_LEN_PTR, false)
+#define lineEnd(LINES_PTR, HEAD_PTR) \
+    _lineEdgeCounter(LINES_PTR, HEAD_PTR, false)
 
 
 #endif

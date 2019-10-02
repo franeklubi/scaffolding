@@ -2,7 +2,7 @@
 
 
 Head genHead() {
-   Head h = {0, '\0', false};
+   Head h = {0, 0, 0, '\0', false};
    return h;
 }
 
@@ -10,7 +10,8 @@ Head genHead() {
 char moveRight(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 ) {
-    uint32_t to_end = lineEnd(current_head_ptr, buffer_ptr, buffer_len);
+    // uint32_t to_end = lineEnd(current_head_ptr, buffer_ptr, buffer_len);
+    uint32_t to_end = 0;
 
     // newline_index actually stores the index after the newline
     int32_t newline_index = (int32_t) current_head_ptr->pos+to_end;
@@ -76,9 +77,10 @@ char moveLeft(
     Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 ) {
 
-    uint32_t to_beginning = lineBeginning(
-        current_head_ptr, buffer_ptr, buffer_len
-    );
+    // uint32_t to_beginning = lineBeginning(
+    //     current_head_ptr, buffer_ptr, buffer_len
+    // );
+    uint32_t to_beginning = 0;
 
     // newline_index actually stores the index after the newline
     int32_t newline_index = (int32_t) current_head_ptr->pos-to_beginning;
@@ -131,56 +133,21 @@ char moveDown(
 }
 
 
-uint32_t _lineEdgeCounter(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len,
-    bool direction
-) {
-    int8_t d = -1;
-    if ( direction ) {
-        d = 1;
-    }
-
-    uint32_t index = current_head_ptr->pos;
-
+int32_t _lineEdgeCounter(Lines* buffer_ptr, Head* head_ptr, bool direction) {
+    // testing if the head is out of bounds
     if (
-        index >= *buffer_len
-        || index < 0
-        || (
-            direction?(
-                index < 1
-            ):(
-                index == *buffer_len-1
-            )
-        )
-        || (*buffer_ptr)[index-d] == '\n'
+        head_ptr->pos_x < 0
+        || head_ptr->pos_y < 0
+        || head_ptr->pos_y >= buffer_ptr->no_lines
+        || head_ptr->pos_x >= buffer_ptr->lines_len[head_ptr->pos_y]
     ) {
-        return 0;
+        fprintf(stderr, "Out of bounds in _lineEdgeCounter\n");
+        return -1;
     }
 
+    if ( direction ) {
+        return head_ptr->pos_x;
+    }
 
-    char next = '\0';
-    do {
-        index-=d;
-
-        if ( direction ) {
-            if ( index > 0 ) {
-                next = (*buffer_ptr)[index-1];
-            }
-        } else {
-            if ( index < *buffer_len-1 ) {
-                next = (*buffer_ptr)[index+1];
-            }
-        }
-    } while (
-        next != '\n'
-        && (
-            direction?(
-                    index > 0
-                ):(
-                    index < *buffer_len-1
-                )
-        )
-    );
-
-    return (current_head_ptr->pos - index) * d;
+    return buffer_ptr->lines_len[head_ptr->pos_y] - head_ptr->pos_x - 1;
 }
