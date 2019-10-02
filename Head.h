@@ -10,7 +10,6 @@
 
 
 typedef struct {
-    uint32_t pos;
     uint32_t pos_x;
     uint32_t pos_y;
     int32_t mod;
@@ -26,7 +25,7 @@ Head genHead();
 // however - if destructive, it will prepend space before newline on the right
 // or the end of the buffer, effectively extending it
 char moveRight(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
 // moveLeft subtracts n from head's pos and returns mod it's standing on
@@ -34,14 +33,14 @@ char moveRight(
 // however - if destructive, it will insert space after newline on the left
 // or the beginning of the buffer, effectively extending it
 char moveLeft(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
 // moveDown moves the cursor n lines down keeping the same pos within a line
 // if destructive creates a new line,
 // if not destructive, and there's no line already created below, return EOF
 char moveDown(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 );
 
 // INSTEAD OF USING _lineEdgeCounter USE lineBeginning or lineEnd

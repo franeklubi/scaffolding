@@ -8,9 +8,9 @@
 
 
 int main() {
-    // Head r_head = genHead();
-    // Head w_head = genHead();
-    // w_head.destructive = true;
+    Head r_head = genHead();
+    Head w_head = genHead();
+    w_head.destructive = true;
 
     FILE* file = fopen("down.scaf", "r");
         uint32_t file_size = getSize(file);
@@ -34,8 +34,10 @@ int main() {
     }
 
 
+    uint8_t error_code = interpret(lines_buffer, &r_head, &w_head);
+
+
     freeLines(lines_buffer);
 
-    // return error_code;
-    return 0;
+    return error_code;
 }

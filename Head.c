@@ -2,22 +2,22 @@
 
 
 Head genHead() {
-   Head h = {0, 0, 0, '\0', false};
+   Head h = {0, 0, '\0', false};
    return h;
 }
 
 
 char moveRight(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 ) {
-    // uint32_t to_end = lineEnd(current_head_ptr, buffer_ptr, buffer_len);
+    // uint32_t to_end = lineEnd(curr_head_ptr, buffer_ptr, buffer_len);
     uint32_t to_end = 0;
 
     // newline_index actually stores the index after the newline
-    int32_t newline_index = (int32_t) current_head_ptr->pos+to_end;
+    int32_t newline_index = (int32_t) curr_head_ptr->pos_x+to_end;
 
     // the index after mod subtraction would look like this
-    int32_t index_after = (int32_t) current_head_ptr->pos;
+    int32_t index_after = (int32_t) curr_head_ptr->pos_x;
     index_after += n;
 
 
@@ -25,15 +25,15 @@ char moveRight(
     // printf("\tindex_after: %i\n", index_after);
     // printf("\tnewline_index: %i\n", newline_index);
     // printf("\tto_end: %i\n", to_end);
-    // printf("\tcurr headpos: %i\n", current_head_ptr->pos);
-    // printf("\tcurr destructive: %i\n", current_head_ptr->destructive);
+    // printf("\tcurr headpos: %i\n", curr_head_ptr->pos_x);
+    // printf("\tcurr destructive: %i\n", curr_head_ptr->destructive);
     // printf("\tbuffer len fucker: %i\n\n", *buffer_len);
 
 
     // if the index after moving would end up
     // outside the current line - insert/append the difference
-    // and set current_head_ptr->pos to the end of the line
-    if ( index_after > newline_index && current_head_ptr->destructive ) {
+    // and set curr_head_ptr->pos_x to the end of the line
+    if ( index_after > newline_index && curr_head_ptr->destructive ) {
 
         // if the newline_index is at the end of the buffer
         // just append it with the difference of index_after
@@ -54,7 +54,7 @@ char moveRight(
                 newline_index+1, index_after-newline_index
             );
         }
-        current_head_ptr->pos = index_after;
+        curr_head_ptr->pos_x = index_after;
         return ' ';
 
     // if it's non destructive we'll just put it gently to an eternal sleep
@@ -66,27 +66,27 @@ char moveRight(
 
     // of course there's always a possibility that we just want to move right
     // without going out of line's boundaries
-    current_head_ptr->pos = index_after;
-    char next = *buffer_ptr[current_head_ptr->pos];
+    curr_head_ptr->pos_x = index_after;
+    char next = *buffer_ptr[curr_head_ptr->pos_x];
 
     return next;
 };
 
 
 char moveLeft(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 ) {
 
     // uint32_t to_beginning = lineBeginning(
-    //     current_head_ptr, buffer_ptr, buffer_len
+    //     curr_head_ptr, buffer_ptr, buffer_len
     // );
     uint32_t to_beginning = 0;
 
     // newline_index actually stores the index after the newline
-    int32_t newline_index = (int32_t) current_head_ptr->pos-to_beginning;
+    int32_t newline_index = (int32_t) curr_head_ptr->pos_x-to_beginning;
 
     // the index after mod subtraction would look like this
-    int32_t index_after = (int32_t) current_head_ptr->pos;
+    int32_t index_after = (int32_t) curr_head_ptr->pos_x;
     index_after -= n;
 
 
@@ -94,20 +94,20 @@ char moveLeft(
     // printf("\tindex_after: %i\n", index_after);
     // printf("\tnewline_index: %i\n", newline_index);
     // printf("\tto_beginning: %i\n", to_beginning);
-    // printf("\tcurr headpos: %i\n", current_head_ptr->pos);
-    // printf("\tcurr destructive: %i\n", current_head_ptr->destructive);
+    // printf("\tcurr headpos: %i\n", curr_head_ptr->pos_x);
+    // printf("\tcurr destructive: %i\n", curr_head_ptr->destructive);
     // printf("\tbuffer len fucker: %i\n\n", *buffer_len);
 
 
     // if the index after moving would end up outside the current line
-    // prepend the difference and set current_head_ptr->pos to newline_index
-    if ( index_after < newline_index && current_head_ptr->destructive ) {
+    // prepend the difference and set curr_head_ptr->pos_x to newline_index
+    if ( index_after < newline_index && curr_head_ptr->destructive ) {
         insert(
             buffer_ptr, buffer_len, ' ',
             newline_index, newline_index-index_after
         );
 
-        current_head_ptr->pos = newline_index;
+        curr_head_ptr->pos_x = newline_index;
         return ' ';
 
     // if it's non destructive, well - we have a garotte on hand
@@ -118,8 +118,8 @@ char moveLeft(
 
     // of course there's always a possibility that we just want to move left
     // without going out of line's boundaries
-    current_head_ptr->pos = index_after;
-    char next = (*buffer_ptr)[current_head_ptr->pos];
+    curr_head_ptr->pos_x = index_after;
+    char next = (*buffer_ptr)[curr_head_ptr->pos_x];
 
 
     return next;
@@ -127,7 +127,7 @@ char moveLeft(
 
 
 char moveDown(
-    Head* current_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
+    Head* curr_head_ptr, char** buffer_ptr, uint32_t* buffer_len, uint32_t n
 ) {
     return EOF;
 }
