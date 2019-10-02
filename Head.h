@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "fileHandling.h"
+#include "Lines.h"
 
 
 typedef struct {

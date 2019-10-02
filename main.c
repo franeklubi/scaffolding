@@ -4,6 +4,7 @@
 #include "Head.h"
 #include "fileHandling.h"
 #include "interpreter.h"
+#include "Lines.h"
 
 
 int main() {
