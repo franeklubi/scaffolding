@@ -93,30 +93,11 @@ bool insertLines(
     }
 
 
-    // realloc lines buffer
-    lines_ptr->no_lines+=line_n;
-    void* temp_new_lines_ptr = realloc(
-        lines_ptr->lines,
-        lines_ptr->no_lines*sizeof(char*)
-    );
-    if ( !temp_new_lines_ptr ) {
+    // expanding lines
+    if ( !_expandLines(lines_ptr, line_n) ) {
         fprintf(stderr, "Can't realloc in insertLines\n");
-        lines_ptr->no_lines-=line_n;
         return false;
     }
-    lines_ptr->lines = temp_new_lines_ptr;
-
-    // realloc lines' length buffer
-    void* temp_new_lines_len_ptr = realloc(
-        lines_ptr->lines_len,
-        lines_ptr->no_lines*sizeof(uint32_t)
-    );
-    if ( !temp_new_lines_len_ptr ) {
-        fprintf(stderr, "Can't realloc in insertLines\n");
-        lines_ptr->no_lines-=line_n;
-        return false;
-    }
-    lines_ptr->lines_len = temp_new_lines_len_ptr;
 
 
     // shiftin boi
@@ -146,6 +127,41 @@ bool insertLines(
         memset(lines_ptr->lines[x], ' ', n);
     }
 
+
+    return true;
+}
+
+
+bool appendLines(Lines* lines_ptr, uint32_t line_n, uint32_t n) {
+    return false;
+}
+
+
+bool _expandLines(Lines* lines_ptr, uint32_t line_n) {
+    // realloc lines buffer
+    lines_ptr->no_lines+=line_n;
+    void* temp_new_lines_ptr = realloc(
+        lines_ptr->lines,
+        lines_ptr->no_lines*sizeof(char*)
+    );
+    if ( !temp_new_lines_ptr ) {
+        fprintf(stderr, "Can't realloc in _expandLines\n");
+        lines_ptr->no_lines-=line_n;
+        return false;
+    }
+    lines_ptr->lines = temp_new_lines_ptr;
+
+    // realloc lines' length buffer
+    void* temp_new_lines_len_ptr = realloc(
+        lines_ptr->lines_len,
+        lines_ptr->no_lines*sizeof(uint32_t)
+    );
+    if ( !temp_new_lines_len_ptr ) {
+        fprintf(stderr, "Can't realloc in _expandLines\n");
+        lines_ptr->no_lines-=line_n;
+        return false;
+    }
+    lines_ptr->lines_len = temp_new_lines_len_ptr;
 
     return true;
 }

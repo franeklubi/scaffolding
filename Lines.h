@@ -22,9 +22,17 @@ Lines* dissectLines(char* buffer_ptr, uint32_t buffer_len);
 // freeLines frees allocated memory in Lines* struct
 void freeLines(Lines* lines_ptr);
 
-// insertLines inserts line_n of emmpty lines in lines_ptr
+// insertLines inserts line_n of empty lines at index in the lines_ptr
 // initializes each line with n of empty characters
 bool insertLines(Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n);
+
+// appendLines appends line_n of empty lines at the end of the lines buffer
+// initializes each line with n of empty characters
+bool appendLines(Lines* lines_ptr, uint32_t line_n, uint32_t n);
+
+// INSTEAD OF USING _expandLines USE insertLines or appendLines
+// expands number of lines in lines_ptr
+bool _expandLines(Lines* lines_ptr, uint32_t line_n);
 
 
 #endif
