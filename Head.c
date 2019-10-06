@@ -100,9 +100,17 @@ char moveLeft(
 }
 
 
-char moveDown(
-    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
-) {
+char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
+    if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
+        fprintf(stderr, "Illegal position in moveDown\n");
+        return -1;
+    }
+
+    // uint32_t to_last_line = buffer_ptr->no_lines - curr_head_ptr->pos_y - 1;
+    //
+    // uint32_t last_line_index = curr_head_ptr->pos_y + to_last_line;
+
+
     return EOF;
 }
 

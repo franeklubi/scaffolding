@@ -82,3 +82,70 @@ void freeLines(Lines* lines_ptr) {
 
     free(lines_ptr);
 }
+
+
+bool insertLines(
+    Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n
+) {
+    if ( index >= lines_ptr->no_lines ) {
+        fprintf(stderr, "Out of bounds in insertLines\n");
+        return false;
+    }
+
+
+    // realloc lines buffer
+    lines_ptr->no_lines+=line_n;
+    void* temp_new_lines_ptr = realloc(
+        lines_ptr->lines,
+        lines_ptr->no_lines*sizeof(char*)
+    );
+    if ( !temp_new_lines_ptr ) {
+        fprintf(stderr, "Can't realloc in insertLines\n");
+        lines_ptr->no_lines-=line_n;
+        return false;
+    }
+    lines_ptr->lines = temp_new_lines_ptr;
+
+    // realloc lines' length buffer
+    void* temp_new_lines_len_ptr = realloc(
+        lines_ptr->lines_len,
+        lines_ptr->no_lines*sizeof(uint32_t)
+    );
+    if ( !temp_new_lines_len_ptr ) {
+        fprintf(stderr, "Can't realloc in insertLines\n");
+        lines_ptr->no_lines-=line_n;
+        return false;
+    }
+    lines_ptr->lines_len = temp_new_lines_len_ptr;
+
+
+    // shiftin boi
+    for ( uint32_t x = 0; x < lines_ptr->no_lines-line_n-index; x++ ) {
+        // shift lines' pointers
+        lines_ptr->lines[lines_ptr->no_lines-1-x] =
+            lines_ptr->lines[lines_ptr->no_lines-1-x-line_n];
+
+        // shift line len's values
+        lines_ptr->lines_len[lines_ptr->no_lines-1-x] =
+            lines_ptr->lines_len[lines_ptr->no_lines-1-x-line_n];
+    }
+
+
+    for ( uint32_t x = index; x < index+line_n; x++ ) {
+        // setting line len to n
+        lines_ptr->lines_len[x] = n;
+
+        // allocating space for new lines
+        void* new_line = malloc(n);
+        if ( !new_line ) {
+            fprintf(stderr, "Can't malloc line buffer in insertLines\n");
+            return false;
+        }
+        lines_ptr->lines[x] = (char*) new_line;
+
+        memset(lines_ptr->lines[x], ' ', n);
+    }
+
+
+    return true;
+}
