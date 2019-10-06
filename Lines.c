@@ -112,19 +112,9 @@ bool insertLines(
     }
 
 
-    for ( uint32_t x = index; x < index+line_n; x++ ) {
-        // setting line len to n
-        lines_ptr->lines_len[x] = n;
-
-        // allocating space for new lines
-        void* new_line = malloc(n);
-        if ( !new_line ) {
-            fprintf(stderr, "Can't malloc line buffer in insertLines\n");
-            return false;
-        }
-        lines_ptr->lines[x] = (char*) new_line;
-
-        memset(lines_ptr->lines[x], ' ', n);
+    if ( !_makeLines(lines_ptr, index, line_n, n) ) {
+        fprintf(stderr, "Can't make lines in insertLines\n");
+        return false;
     }
 
 
@@ -133,6 +123,14 @@ bool insertLines(
 
 
 bool appendLines(Lines* lines_ptr, uint32_t line_n, uint32_t n) {
+    // expanding lines
+    // if ( !_expandLines(lines_ptr, line_n) ) {
+    //     fprintf(stderr, "Can't realloc in appendLines\n");
+    //     return false;
+    // }
+
+
+
     return false;
 }
 
@@ -162,6 +160,26 @@ bool _expandLines(Lines* lines_ptr, uint32_t line_n) {
         return false;
     }
     lines_ptr->lines_len = temp_new_lines_len_ptr;
+
+    return true;
+}
+
+
+bool _makeLines(Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n) {
+    for ( uint32_t x = index; x < index+line_n; x++ ) {
+        // setting line len to n
+        lines_ptr->lines_len[x] = n;
+
+        // allocating space for new lines
+        void* new_line = malloc(n);
+        if ( !new_line ) {
+            fprintf(stderr, "Can't malloc line buffer in _makeLines\n");
+            return false;
+        }
+        lines_ptr->lines[x] = (char*) new_line;
+
+        memset(lines_ptr->lines[x], ' ', n);
+    }
 
     return true;
 }
