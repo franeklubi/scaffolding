@@ -124,11 +124,16 @@ bool insertLines(
 
 bool appendLines(Lines* lines_ptr, uint32_t line_n, uint32_t n) {
     // expanding lines
-    // if ( !_expandLines(lines_ptr, line_n) ) {
-    //     fprintf(stderr, "Can't realloc in appendLines\n");
-    //     return false;
-    // }
+    if ( !_expandLines(lines_ptr, line_n) ) {
+        fprintf(stderr, "Can't realloc in appendLines\n");
+        return false;
+    }
 
+    // filling lines in
+    if ( !_makeLines(lines_ptr, lines_ptr->no_lines-line_n, line_n, n) ) {
+        fprintf(stderr, "Can't make lines in appendLines\n");
+        return false;
+    }
 
 
     return false;
