@@ -103,15 +103,40 @@ char moveLeft(
 char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
     if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
         fprintf(stderr, "Illegal position in moveDown\n");
-        return -1;
+        return EOF;
     }
 
-    // uint32_t to_last_line = buffer_ptr->no_lines - curr_head_ptr->pos_y - 1;
-    //
-    // uint32_t last_line_index = curr_head_ptr->pos_y + to_last_line;
 
+    uint32_t to_last_line = buffer_ptr->no_lines - curr_head_ptr->pos_y - 1;
 
-    return EOF;
+    uint32_t last_line_index = curr_head_ptr->pos_y + to_last_line;
+
+    // the pos_y after mod addition would look like this
+    uint32_t pos_y_after = curr_head_ptr->pos_y + n;
+
+    // if the index after moving would end up
+    // outside the entire buffer - append the difference in lines
+    // and set curr_head_ptr->pos_y to the last line
+    if ( pos_y_after > last_line_index && curr_head_ptr->destructive ) {
+
+        appendLines(
+            buffer_ptr, pos_y_after-last_line_index, curr_head_ptr->pos_x+1
+        );
+
+        curr_head_ptr->pos_y = pos_y_after;
+        return ' ';
+
+    // if it's non destructive - just tell me, i have a shotgun somewhere here
+    } else if ( pos_y_after > last_line_index ) {
+        fprintf(stderr, "Exit due to moveDown overflow\n");
+        return EOF;
+    }
+
+    // if the position is going to be legal - just move down dude
+    curr_head_ptr->pos_y = pos_y_after;
+    char next = buffer_ptr->lines[curr_head_ptr->pos_y][curr_head_ptr->pos_x];
+
+    return next;
 }
 
 

@@ -35,7 +35,7 @@ bool appendLines(Lines* lines_ptr, uint32_t line_n, uint32_t n);
 bool _expandLines(Lines* lines_ptr, uint32_t line_n);
 
 // INSTEAD OF USING _makeLines USE insertLines or appendLines
-// makeLines creates n lines starting at index and fills them with n ' ' chars
+// _makeLines creates n lines starting at index and fills them with n ' ' chars
 bool _makeLines(Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n);
 
 
