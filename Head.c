@@ -114,6 +114,24 @@ char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
     // the pos_y after mod addition would look like this
     uint32_t pos_y_after = curr_head_ptr->pos_y + n;
 
+
+    // check if lines head is gonna move through are not shorter than the
+    // current x position; it's gonna be pretty bad otherwise
+    for ( uint32_t y = curr_head_ptr->pos_y; y < last_line_index; y++ ) {
+        if ( buffer_ptr->lines_len[y] < curr_head_ptr->pos_x ) {
+            if ( curr_head_ptr->destructive ) {
+                append(
+                    &buffer_ptr->lines[y], &buffer_ptr->lines_len[y],
+                    ' ', curr_head_ptr->pos_x - buffer_ptr->lines_len[y] + 1
+                );
+            } else {
+                // imma end this program's whole career
+                fprintf(stderr, "Exit due to moveDown overflow\n");
+                return EOF;
+            }
+        }
+    }
+
     // if the index after moving would end up
     // outside the entire buffer - append the difference in lines
     // and set curr_head_ptr->pos_y to the last line
