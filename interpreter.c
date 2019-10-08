@@ -4,7 +4,7 @@
 uint8_t interpret(Lines* buffer_ptr, Head* r_head_ptr, Head* w_head_ptr) {
 
     bool should_end = false;
-    Head* curr_head_ptr = r_head_ptr;
+    Head* curr_head_ptr = w_head_ptr;
 
     while ( !should_end ) {
 

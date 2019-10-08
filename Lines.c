@@ -136,7 +136,7 @@ bool appendLines(Lines* lines_ptr, uint32_t line_n, uint32_t n) {
     }
 
 
-    return false;
+    return true;
 }
 
 
