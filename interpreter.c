@@ -52,7 +52,6 @@ bool execute(
 
             next = moveDown(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
             if ( next == EOF ) {
-                printf("YOL EOF");
                 return true;
             }
 
@@ -61,6 +60,14 @@ bool execute(
 
         case '/':
             printf("Go up\n");
+
+            next = moveUp(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            if ( next == EOF ) {
+                printf("up oof");
+                return true;
+            }
+
+            curr_head_ptr->pos_x--;
             break;
 
         case '<':

@@ -24,24 +24,23 @@ Head genHead();
 // if reached newline or the end of the buffer,
 // however - if destructive, it will prepend space before newline on the right
 // or the end of the buffer, effectively extending it
-char moveRight(
-    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
-);
+char moveRight(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n);
 
 // moveLeft subtracts n from head's pos and returns mod it's standing on
 // or EOF if reached newline or the beginning of the buffer,
 // however - if destructive, it will insert space after newline on the left
 // or the beginning of the buffer, effectively extending it
-char moveLeft(
-    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
-);
+char moveLeft(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n);
 
-// moveDown moves the cursor n lines down keeping the same pos within a line
+// moveDown moves the cursor n lines down keeping the same pos_x within a line
 // if destructive creates a new line,
 // if not destructive, and there's no line already created below, return EOF
-char moveDown(
-    Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
-);
+char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n);
+
+// moveUp moves the cursor n lines up keeping the same pos_x within a line
+// if destructive creates a new line,
+// if not destructive, and there's no line already created above, return EOF
+char moveUp(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n);
 
 // INSTEAD OF USING _lineEdgeCounter USE lineBeginning or lineEnd
 // _lineEdgeCounter returns how many chars are available between head's pos and
