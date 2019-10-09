@@ -29,20 +29,11 @@ char moveRight(
     // and set curr_head_ptr->pos_x to the end of the line
     if ( index_after > newline_index && curr_head_ptr->destructive ) {
 
-        printf("YO BEFORE APPEND\n");
-        printf("%i", buffer_ptr->no_lines);
-        printf("\n");
-
         append(
             &buffer_ptr->lines[curr_head_ptr->pos_y],
             &buffer_ptr->lines_len[curr_head_ptr->pos_y],
             ' ', index_after-newline_index
         );
-
-        printf("YO AFTER APPEND\n");
-        printf("%i", buffer_ptr->no_lines);
-        printf("\n");
-
 
         curr_head_ptr->pos_x = index_after;
         return ' ';
