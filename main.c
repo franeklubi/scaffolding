@@ -12,7 +12,7 @@ int main() {
     Head w_head = genHead();
     w_head.destructive = true;
 
-    FILE* file = fopen("down.scaf", "r");
+    FILE* file = fopen("hw.scaf", "r");
         uint32_t file_size = getSize(file);
         char* start_ptr = loadFile(file, file_size);
     fclose(file);

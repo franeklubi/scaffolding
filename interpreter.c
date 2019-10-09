@@ -152,7 +152,7 @@ bool execute(
         // also allows for chars representing numbers (48-57) to be loaded into
         // mod in their char value
         case ',':
-            next = moveRight(buffer_ptr, *curr_head_ptr, 1);
+            next = moveRight(buffer_ptr, r_head_ptr, 1);
             if ( next == EOF ) {
                 return true;
             }
