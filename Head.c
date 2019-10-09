@@ -240,3 +240,25 @@ bool isLegalPosition(Lines* buffer_ptr, Head* head_ptr) {
         && head_ptr->pos_x < buffer_ptr->lines_len[head_ptr->pos_y]
     );
 }
+
+
+bool writeChar(Lines* buffer_ptr, Head* w_head_ptr) {
+    if ( !isLegalPosition(buffer_ptr, w_head_ptr) ) {
+        fprintf(stderr, "Illegal position in writeChar\n");
+        return false;
+    }
+
+    buffer_ptr->lines[w_head_ptr->pos_y][w_head_ptr->pos_x] = w_head_ptr->mod;
+
+    if ( w_head_ptr->pos_x == buffer_ptr->lines_len[w_head_ptr->pos_y]-1 ) {
+        append(
+            &buffer_ptr->lines[w_head_ptr->pos_y],
+            &buffer_ptr->lines_len[w_head_ptr->pos_y],
+            ' ', 1
+        );
+    }
+
+    w_head_ptr->pos_x++;
+
+    return true;
+}

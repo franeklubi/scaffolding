@@ -61,8 +61,12 @@ int32_t _lineEdgeCounter(
 #define lineEnd(LINES_PTR, HEAD_PTR) \
     _lineEdgeCounter(LINES_PTR, HEAD_PTR, false)
 
-
+// isLegalPosition returns if head_ptr's position is inside the Lines's buffer
 bool isLegalPosition(Lines* buffer_ptr, Head* head_ptr);
+
+// writeChar writes head's mod as a char to the buffer and increments it's x_pos
+// if it's about to run outside the line - it just extends it
+bool writeChar(Lines* buffer_ptr, Head* w_head_ptr);
 
 
 #endif

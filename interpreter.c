@@ -109,11 +109,15 @@ bool execute(
         // prints char value of mod
         case '.':
             printf("SCAF> %c\n", w_head_ptr->mod);
+            writeChar(buffer_ptr, w_head_ptr);
             break;
 
         // prints numeric value of mod
         case '=':
             printf("SCAF= %i\n", w_head_ptr->mod);
+            // converting numeric mod to a char
+            w_head_ptr->mod += 0x30;
+            writeChar(buffer_ptr, w_head_ptr);
             break;
 
         // change mul's value so '+' will subtract
@@ -122,13 +126,14 @@ bool execute(
 
         // adds next mod's numerical value to current mod
         case '+':
-            next = moveRight(buffer_ptr, r_head_ptr, w_head_ptr->mod);
+            next = moveRight(buffer_ptr, r_head_ptr, 1);
             if ( next == EOF ) {
                 return true;
             }
 
             w_head_ptr->mod += (next-0x30)*mul;
             mul = 1;
+
             break;
 
         // if w_head_ptr's mod value is -ne 0 act as opcode ',',
@@ -158,6 +163,7 @@ bool execute(
             }
 
             w_head_ptr->mod = next;
+
             break;
 
         default:
