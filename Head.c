@@ -127,8 +127,8 @@ char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
     if ( check_until >= buffer_ptr->no_lines ) {
         check_until = buffer_ptr->no_lines-1;
     }
-    for ( uint32_t y = curr_head_ptr->pos_y; y < last_line_index; y++ ) {
-        if ( buffer_ptr->lines_len[y] < curr_head_ptr->pos_x ) {
+    for ( uint32_t y = curr_head_ptr->pos_y; y <= last_line_index; y++ ) {
+        if ( buffer_ptr->lines_len[y] <= curr_head_ptr->pos_x ) {
             if ( curr_head_ptr->destructive ) {
                 append(
                     &buffer_ptr->lines[y], &buffer_ptr->lines_len[y],

@@ -9,7 +9,7 @@ uint8_t interpret(Lines* buffer_ptr, Head* r_head_ptr, Head* w_head_ptr) {
     while ( !should_end ) {
 
         should_end = execute(
-            buffer_ptr, r_head_ptr, w_head_ptr, curr_head_ptr
+            buffer_ptr, r_head_ptr, w_head_ptr, &curr_head_ptr
         );
 
         r_head_ptr->pos_x++;
@@ -22,9 +22,10 @@ uint8_t interpret(Lines* buffer_ptr, Head* r_head_ptr, Head* w_head_ptr) {
 
 bool execute(
     Lines* buffer_ptr,
-    Head* r_head_ptr, Head* w_head_ptr, Head* curr_head_ptr
+    Head* r_head_ptr, Head* w_head_ptr, Head** curr_head_ptr
 ) {
-    if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
+    if ( !isLegalPosition(buffer_ptr, r_head_ptr) ) {
+        fprintf(stderr, "Exit from r_head_ptr line overflow\n");
         return true;
     }
 
@@ -39,60 +40,69 @@ bool execute(
 
         case 'w':
             printf("Switch to w head\n");
-            curr_head_ptr = w_head_ptr;
+            *curr_head_ptr = w_head_ptr;
             break;
 
         case 'r':
             printf("Switch to r head\n");
-            curr_head_ptr = r_head_ptr;
+            *curr_head_ptr = r_head_ptr;
             break;
 
         case '\\':
             printf("Go down\n");
 
-            next = moveDown(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            next = moveDown(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
             if ( next == EOF ) {
                 return true;
             }
+            // return true;
 
-            curr_head_ptr->pos_x--;
+            if ( *curr_head_ptr == r_head_ptr ) {
+                (*curr_head_ptr)->pos_x--;
+            }
             break;
 
         case '/':
             printf("Go up\n");
 
-            next = moveUp(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            next = moveUp(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
             if ( next == EOF ) {
                 printf("up oof");
                 return true;
             }
 
-            curr_head_ptr->pos_x--;
+            if ( *curr_head_ptr == r_head_ptr ) {
+                (*curr_head_ptr)->pos_x--;
+            }
             break;
 
         case '<':
             printf("Go left\n");
 
-            next = moveLeft(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            next = moveLeft(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
             if ( next == EOF ) {
                 return true;
             }
 
             // subtract from head pos instead of executing recursively
-            curr_head_ptr->pos_x--;
+            if ( *curr_head_ptr == r_head_ptr ) {
+                (*curr_head_ptr)->pos_x--;
+            }
 
             break;
 
         case '>':
             printf("Go right\n");
 
-            next = moveRight(buffer_ptr, curr_head_ptr, w_head_ptr->mod);
+            next = moveRight(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
             if ( next == EOF ) {
                 return true;
             }
 
             // subtract from head pos instead of executing recursively
-            curr_head_ptr->pos_x--;
+            if ( *curr_head_ptr == r_head_ptr ) {
+                (*curr_head_ptr)->pos_x--;
+            }
 
             break;
 
@@ -142,7 +152,7 @@ bool execute(
         // also allows for chars representing numbers (48-57) to be loaded into
         // mod in their char value
         case ',':
-            next = moveRight(buffer_ptr, curr_head_ptr, 1);
+            next = moveRight(buffer_ptr, *curr_head_ptr, 1);
             if ( next == EOF ) {
                 return true;
             }
