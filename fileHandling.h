@@ -24,5 +24,9 @@ bool insert(
 // returns true if the operation was successful, false otherwise
 bool append(char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t n);
 
+// checkExtension checks if the filename contains ext at the end
+// Both filename and ext ought to be nul-terminated
+bool checkExtension(char* filename, char* ext);
+
 
 #endif

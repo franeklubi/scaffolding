@@ -92,3 +92,32 @@ bool append(char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t n) {
 
     return true;
 }
+
+
+bool checkExtension(char* filename, char* ext) {
+    uint16_t filename_len = 0;
+    uint16_t ext_len = 0;
+
+    while ( filename[filename_len] ) {
+        filename_len++;
+    }
+    while ( ext[ext_len] ) {
+        ext_len++;
+    }
+
+    // if the filename is shorter or the same length as the extension
+    // it'd not be considered as a valid extension, even if it contained ext
+    if ( ext_len >= filename_len ) {
+        fprintf(stderr, "Filename can't contain extension \"%s\"\n", ext);
+        return false;
+    }
+
+    // check if the last characters of filename are the same as in ext
+    bool check = false;
+    if ( strcmp(filename+(filename_len-ext_len), ext) == 0 ) {
+        check = true;
+    }
+
+
+    return check;
+}
