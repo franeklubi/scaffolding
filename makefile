@@ -13,7 +13,7 @@ db: main.c
 	gdb --args ./a.out ${program}
 
 prod: main.c
-	gcc -Wall -O3 *.c
+	gcc -Wall -Wextra -O3 *.c
 
 val: main.c
 	make

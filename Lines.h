@@ -10,7 +10,7 @@
 
 typedef struct {
     char** lines;
-    int32_t no_lines;
+    uint32_t no_lines;
     uint32_t* lines_len;
 } Lines;
 

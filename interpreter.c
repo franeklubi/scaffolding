@@ -124,6 +124,8 @@ bool execute(
         case '-':
             mul = -1;
 
+            // fall through
+
         // adds next mod's numerical value to current mod
         case '+':
             next = moveRight(buffer_ptr, r_head_ptr, 1);
@@ -152,6 +154,8 @@ bool execute(
             } else {
                 buffer_ptr->lines[r_head_ptr->pos_y][r_head_ptr->pos_x-1]--;
             }
+
+            // fall through
 
         // escape the next character;
         // also allows for chars representing numbers (48-57) to be loaded into
