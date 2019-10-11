@@ -38,5 +38,8 @@ bool _expandLines(Lines* lines_ptr, uint32_t line_n);
 // _makeLines creates n lines starting at index and fills them with n ' ' chars
 bool _makeLines(Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n);
 
+// saveToFile saves lines_ptr's buffer to a given path
+bool saveToFile(Lines* lines_ptr, char* filename);
+
 
 #endif

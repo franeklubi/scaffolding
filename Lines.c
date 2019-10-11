@@ -188,3 +188,22 @@ bool _makeLines(Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n) {
 
     return true;
 }
+
+
+bool saveToFile(Lines* lines_ptr, char* filename) {
+
+    FILE* f = fopen(filename, "w");
+    if ( !f ) {
+        fprintf(stderr, "Can't open %s for writing\n", filename);
+        return false;
+    }
+
+    for ( uint32_t x = 0; x < lines_ptr->no_lines; x++ ) {
+        fprintf(f, "%.*s\n", lines_ptr->lines_len[x], lines_ptr->lines[x]);
+    }
+
+    fclose(f);
+
+
+    return true;
+}

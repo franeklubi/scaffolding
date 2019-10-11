@@ -47,6 +47,8 @@ int run(char* filename) {
         printf("\"\n");
     }
 
+    saveToFile(lines_buffer, strcat(filename, ".out"));
+
     freeLines(lines_buffer);
 
     return error_code;
