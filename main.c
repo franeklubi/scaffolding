@@ -56,7 +56,7 @@ int run(char* filename) {
 
 int main(int argc, char** argv) {
 
-    Flags* options = parseFlags(argc, argv);
+    Flags options = parseFlags(argc, argv);
 
     if ( argc-optind < 1 ) {
         fprintf(stderr, "No input files\n");
@@ -76,8 +76,6 @@ int main(int argc, char** argv) {
             return res;
         }
     }
-
-    free(options);
 
     return res;
 }

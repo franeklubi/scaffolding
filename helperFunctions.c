@@ -1,22 +1,22 @@
 #include "helperFunctions.h"
 
 
-Flags* parseFlags(int argc, char** argv) {
+Flags parseFlags(int argc, char** argv) {
 
-    Flags* f = malloc(sizeof(Flags));
-    f->force = false;
-    f->non_destructive = false;
-    f->output = false;
+    Flags f;
+    f.force = false;
+    f.non_destructive = false;
+    f.output = false;
 
     int option_index = 0;
     while ( (option_index = getopt(argc, argv, ":fnho:")) != -1 ) {
         switch (option_index) {
             case 'f':
-                f->force = true;
+                f.force = true;
                 break;
 
             case 'n':
-                f->non_destructive = true;
+                f.non_destructive = true;
                 break;
 
             case 'h':
@@ -24,8 +24,8 @@ Flags* parseFlags(int argc, char** argv) {
                 exit(1);
 
             case 'o':
-                f->output = true;
-                f->output_filename = optarg;
+                f.output = true;
+                f.output_filename = optarg;
                 break;
 
             case ':':

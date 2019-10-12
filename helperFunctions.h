@@ -32,7 +32,7 @@ typedef struct {
 
 
 // parseFlags does exactly what you think
-Flags* parseFlags(int argc, char** argv);
+Flags parseFlags(int argc, char** argv);
 
 // verifyPath checks if path exists, is not a directory, and is a .scaf source
 bool verifyPath(char* path);
