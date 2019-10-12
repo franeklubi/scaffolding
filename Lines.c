@@ -199,7 +199,10 @@ bool saveToFile(Lines* lines_ptr, char* filename) {
     }
 
     for ( uint32_t x = 0; x < lines_ptr->no_lines; x++ ) {
-        fprintf(f, "%.*s\n", lines_ptr->lines_len[x], lines_ptr->lines[x]);
+        fprintf(f, "%.*s", lines_ptr->lines_len[x], lines_ptr->lines[x]);
+        if ( x != lines_ptr->no_lines-1 ) {
+            fprintf(f, "\n");
+        }
     }
 
     fclose(f);
