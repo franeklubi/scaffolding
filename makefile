@@ -6,11 +6,11 @@ main: main.c
 
 run: main.c
 	make
-	./a.out ${program}
+	./a.out -n ${program}
 
 db: main.c
 	make
-	gdb --args ./a.out ${program}
+	gdb --args ./a.out -n ${program}
 
 prod: main.c
 	gcc -Wall -Wextra -O3 *.c
@@ -18,4 +18,4 @@ prod: main.c
 val: main.c
 	make
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all \
-		./a.out ${program}
+		./a.out -n ${program}

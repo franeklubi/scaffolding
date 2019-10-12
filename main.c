@@ -7,7 +7,8 @@
 #include "interpreter.h"
 #include "Lines.h"
 
-int run(char* filename) {
+
+int run(char* filename, Flags* f) {
     Head r_head = genHead();
     Head w_head = genHead();
     w_head.destructive = true;
@@ -46,7 +47,24 @@ int run(char* filename) {
         printf("\"\n");
     }
 
-    saveToFile(lines_buffer, strcat(filename, ".out"));
+
+    // allocating memory for a string+5 in case non_destructive is set
+    char* filename_out = malloc(strlen(filename)+5);
+    strcpy(filename_out, filename);
+
+    if ( f->output ) {
+        free(filename_out);
+        filename_out = f->output_filename;
+    } else if ( f->non_destructive ) {
+        strcat(filename_out, ".out");
+    }
+
+    saveToFile(lines_buffer, filename_out);
+
+    if ( !f->output ) {
+        free(filename_out);
+    }
+
 
     freeLines(lines_buffer);
 
@@ -66,11 +84,11 @@ int main(int argc, char** argv) {
     int res = 1;
     for ( uint8_t x = optind; x < argc; x++ ) {
 
-        if ( !verifyPath(argv[x]) ) {
+        if ( !verifyPath(argv[x], &options) ) {
             exit(1);
         }
 
-        res = run(argv[x]);
+        res = run(argv[x], &options);
         if ( res != 0 ) {
             fprintf(stderr, "Error when interpreting %s\n", argv[x]);
             return res;

@@ -42,7 +42,7 @@ Flags parseFlags(int argc, char** argv) {
 }
 
 
-bool verifyPath(char* path) {
+bool verifyPath(char* path, Flags* f) {
     if ( !stat(path, &sb) == 0 ) {
         fprintf(stderr, "%s: No such file\n", path);
         return false;
@@ -51,7 +51,7 @@ bool verifyPath(char* path) {
         fprintf(stderr, "%s: Path is a directory\n", path);
         return false;
     }
-    if ( !checkExtension(path, ".scaf") ) {
+    if ( !checkExtension(path, ".scaf") && !f->force ) {
         fprintf(stderr, "%s: File is not .scaf source\n", path);
         return false;
     }

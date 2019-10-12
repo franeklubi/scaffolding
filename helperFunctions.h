@@ -14,7 +14,7 @@ Usage: scaf [options] file...\n\n\
 Optional arguments:\n\
   -f\t\tDon't check if file is a scaf source.\n\
   -n\t\tOutput to filename.out (Don't overwrite file).\n\
-  -o <path>\tOutput to <path>.\n\
+  -o <path>\tOutput to <path> (Takes precedence over -n).\n\
   -h\t\tDisplay this help message.\n\
 "
 
@@ -35,7 +35,7 @@ typedef struct {
 Flags parseFlags(int argc, char** argv);
 
 // verifyPath checks if path exists, is not a directory, and is a .scaf source
-bool verifyPath(char* path);
+bool verifyPath(char* path, Flags* f);
 
 
 #endif
