@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 
+#include "helperFunctions.h"
 #include "Head.h"
 #include "fileHandling.h"
 #include "interpreter.h"
 #include "Lines.h"
-
 
 int run(char* filename) {
     Head r_head = genHead();
@@ -57,27 +56,18 @@ int run(char* filename) {
 
 int main(int argc, char** argv) {
 
+    Flags* options = parseFlags(argc, argv);
 
-    if ( argc < 2 ) {
+    if ( argc-optind < 1 ) {
         fprintf(stderr, "No input files\n");
         return 1;
     }
 
-    struct stat sb;
-
     int res = 1;
-    for ( uint8_t x = 1; x < argc; x++ ) {
-        if ( !stat(argv[x], &sb) == 0 ) {
-            fprintf(stderr, "%s: No such file\n", argv[x]);
-            break;
-        }
-        if ( S_ISDIR(sb.st_mode) ) {
-            fprintf(stderr, "%s: Path is a directory\n", argv[x]);
-            break;
-        }
-        if ( !checkExtension(argv[x], ".scaf") ) {
-            fprintf(stderr, "%s: File is not .scaf source\n", argv[x]);
-            break;
+    for ( uint8_t x = optind; x < argc; x++ ) {
+
+        if ( !verifyPath(argv[x]) ) {
+            exit(1);
         }
 
         res = run(argv[x]);
@@ -86,6 +76,8 @@ int main(int argc, char** argv) {
             return res;
         }
     }
+
+    free(options);
 
     return res;
 }
