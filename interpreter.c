@@ -33,7 +33,11 @@ bool execute(
     char next = '\0';
     uint32_t mul = 1;
 
-    printf("NEXT OPCODE(%i)> \"%c\"\n", r_head_ptr->pos_x, opcode);
+    printf("\nNEXT OPCODE(%i)> \"%c\"\n", r_head_ptr->pos_x, opcode);
+    // printf("R_POS (%i, %i)\n", r_head_ptr->pos_x, r_head_ptr->pos_y);
+    // printf("W_POS (%i, %i)\n", w_head_ptr->pos_x, w_head_ptr->pos_y);
+    // printf("R_MOD(%i)\n", r_head_ptr->mod);
+    // printf("W_MOD(%i)\n", w_head_ptr->mod);
 
 
     switch (opcode) {
@@ -51,7 +55,7 @@ bool execute(
         case '\\':
             printf("Go down\n");
 
-            next = moveDown(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
+            next = moveDown(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 return true;
             }
@@ -65,7 +69,7 @@ bool execute(
         case '/':
             printf("Go up\n");
 
-            next = moveUp(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
+            next = moveUp(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 printf("up oof");
                 return true;
@@ -79,7 +83,7 @@ bool execute(
         case '<':
             printf("Go left\n");
 
-            next = moveLeft(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
+            next = moveLeft(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 return true;
             }
@@ -94,7 +98,7 @@ bool execute(
         case '>':
             printf("Go right\n");
 
-            next = moveRight(buffer_ptr, *curr_head_ptr, w_head_ptr->mod);
+            next = moveRight(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 return true;
             }
@@ -133,29 +137,46 @@ bool execute(
                 return true;
             }
 
-            w_head_ptr->mod += (next-0x30)*mul;
+            (*curr_head_ptr)->mod += (next-0x30)*mul;
             mul = 1;
 
             break;
 
-        // if w_head_ptr's mod value is -ne 0 act as opcode ',',
-        // it also decrements value of buffer_ptr[r_head_ptr->pos-1]
-        // but if /decrementage/ turns out impossible
-        // it just fucks the whole thing up, so be wary where you put '?'
+        // ? allows for conditional execution
+        // if the field before it is equal to 1 it advances r_head's pos by one
+        //
+        // if it's not - it decrements the value of the field checked and
+        // advances r_head's pos by two
+        //
+        // if the positioning of ? turns out impossible to decrement the field
+        // before it stops the execution
         case '?':
             if ( r_head_ptr->pos_x == 0 ) {
                 return true;
             }
+
+            // assigning the value of the field before
             next = buffer_ptr->lines[r_head_ptr->pos_y][r_head_ptr->pos_x-1];
 
-            // decrementing the index before
-            if ( w_head_ptr->mod == 0 ) {
-                break;
+            // the amount r_head is gonna be incremented by
+            int amount = 2;
+
+            // performing the check
+            if ( next == 1 ) {
+                amount = 1;
             } else {
                 buffer_ptr->lines[r_head_ptr->pos_y][r_head_ptr->pos_x-1]--;
             }
 
-            // fall through
+            next = moveRight(buffer_ptr, r_head_ptr, amount);
+            if ( next == EOF ) {
+                return true;
+            }
+
+            // i mean i gotta do this after every move to make the opcode work
+            r_head_ptr->pos_x--;
+
+            break;
 
         // escape the next character;
         // also allows for chars representing numbers (48-57) to be loaded into
@@ -166,7 +187,7 @@ bool execute(
                 return true;
             }
 
-            w_head_ptr->mod = next;
+            (*curr_head_ptr)->mod = next;
 
             break;
 
@@ -178,7 +199,10 @@ bool execute(
             if ( isNumber(opcode) ) {
                 opcode -= 0x30;
             }
-            w_head_ptr->mod = opcode;
+            printf("Laded value (%i)\n", opcode);
+
+
+            (*curr_head_ptr)->mod = opcode;
             break;
     }
 

@@ -12,7 +12,7 @@
 typedef struct {
     uint32_t pos_x;
     uint32_t pos_y;
-    int32_t mod;
+    uint8_t mod;
     bool destructive;
 } Head;
 
