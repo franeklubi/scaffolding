@@ -222,7 +222,7 @@ bool saveToFile(Lines* lines_ptr, char* filename) {
         return false;
     }
 
-    _pushLines(lines_ptr, f);
+    _pushLines(lines_ptr, f, false);
 
     fclose(f);
 
@@ -231,9 +231,18 @@ bool saveToFile(Lines* lines_ptr, char* filename) {
 }
 
 
-void _pushLines(Lines* lines_ptr, FILE* out) {
+void _pushLines(Lines* lines_ptr, FILE* out, bool show_info) {
     for ( uint32_t x = 0; x < lines_ptr->no_lines; x++ ) {
+        if ( show_info ) {
+            fprintf(stderr, "LINE(%x) LEN(%x): \"", x, lines_ptr->lines_len[x]);
+        }
+
         fprintf(out, "%.*s", lines_ptr->lines_len[x], lines_ptr->lines[x]);
+
+        if ( show_info ) {
+            fprintf(stderr, "\"");
+        }
+
         if ( x != lines_ptr->no_lines-1 ) {
             fprintf(out, "\n");
         }
