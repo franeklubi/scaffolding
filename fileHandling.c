@@ -13,7 +13,9 @@ uint32_t getSize(FILE* file) {
 char* loadFile(FILE* file, uint32_t file_size) {
     void* temp_start_ptr = malloc(file_size);
     if ( !temp_start_ptr ) {
-        fprintf(stderr, "Can't malloc in loadFile\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Can't malloc in loadFile\n");
+        #endif
         return temp_start_ptr;
     }
     char* start_ptr = (char*) temp_start_ptr;
@@ -35,7 +37,9 @@ bool insert(
 ) {
     // well you certainly can't insert here
     if ( index >= *buffer_len ) {
-        fprintf(stderr, "Trying to insert outside of bounds\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Trying to insert outside of bounds\n");
+        #endif
         return false;
     }
 
@@ -43,7 +47,9 @@ bool insert(
     (*buffer_len)+=n;
     void* temp_new_buffer_ptr = malloc(*buffer_len);
     if ( !temp_new_buffer_ptr ) {
-        fprintf(stderr, "Can't malloc temp buffer in insert\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Can't malloc temp buffer in insert\n");
+        #endif
         (*buffer_len)-=n;
         return false;
     }
@@ -77,7 +83,9 @@ bool append(char** buffer_ptr, uint32_t* buffer_len, char c, uint32_t n) {
     (*buffer_len)+=n;
     void* temp_new_buffer_ptr = realloc(*buffer_ptr, *buffer_len);
     if ( !temp_new_buffer_ptr ) {
-        fprintf(stderr, "Can't realloc in append\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Can't realloc in append\n");
+        #endif
         (*buffer_len)-=n;
         return false;
     }
@@ -108,7 +116,9 @@ bool checkExtension(char* filename, char* ext) {
     // if the filename is shorter or the same length as the extension
     // it'd not be considered as a valid extension, even if it contained ext
     if ( ext_len >= filename_len ) {
-        fprintf(stderr, "Filename can't contain extension \"%s\"\n", ext);
+        #ifdef _DEBUG
+            fprintf(stderr, "Filename can't contain extension \"%s\"\n", ext);
+        #endif
         return false;
     }
 

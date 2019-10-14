@@ -41,5 +41,11 @@ bool _makeLines(Lines* lines_ptr, uint32_t index, uint32_t line_n, uint32_t n);
 // saveToFile saves lines_ptr's buffer to a given path
 bool saveToFile(Lines* lines_ptr, char* filename);
 
+// printToStderr prints lines_ptr's buffer to stderr
+#define printToStderr(LINES_PTR) _pushLines(LINES_PTR, stderr)
+
+// _pushLines pushes lines_ptr's buffer to out
+void _pushLines(Lines* lines_ptr, FILE* out);
+
 
 #endif

@@ -25,7 +25,9 @@ bool execute(
     Head* r_head_ptr, Head* w_head_ptr, Head** curr_head_ptr
 ) {
     if ( !isLegalPosition(buffer_ptr, r_head_ptr) ) {
-        fprintf(stderr, "Exit from r_head_ptr line overflow\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Read head reached line end (standard exit)\n");
+        #endif
         return true;
     }
 
@@ -38,28 +40,26 @@ bool execute(
     // used to make '-' opcode work
     uint32_t mul = 1;
 
-    printf("\nNEXT OPCODE(%i)> \"%c\"\n", r_head_ptr->pos_x, opcode);
-    printf("R_POS (%i, %i)\n", r_head_ptr->pos_x, r_head_ptr->pos_y);
-    printf("W_POS (%i, %i)\n", w_head_ptr->pos_x, w_head_ptr->pos_y);
-    printf("R_MOD(%i)\n", r_head_ptr->mod);
-    printf("W_MOD(%i)\n", w_head_ptr->mod);
+    #ifdef _DEBUG
+        fprintf(stderr, "\nNEXT OPCODE(%i)> \"%c\"\n", r_head_ptr->pos_x, opcode);
+        fprintf(stderr, "R_POS (%i, %i)\n", r_head_ptr->pos_x, r_head_ptr->pos_y);
+        fprintf(stderr, "W_POS (%i, %i)\n", w_head_ptr->pos_x, w_head_ptr->pos_y);
+        fprintf(stderr, "R_MOD(%i)\n", r_head_ptr->mod);
+        fprintf(stderr, "W_MOD(%i)\n", w_head_ptr->mod);
+    #endif
 
 
     switch (opcode) {
 
         case 'w':
-            printf("Switch to w head\n");
             *curr_head_ptr = w_head_ptr;
             break;
 
         case 'r':
-            printf("Switch to r head\n");
             *curr_head_ptr = r_head_ptr;
             break;
 
         case '\\':
-            printf("Go down\n");
-
             next = moveDown(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 return true;
@@ -72,11 +72,8 @@ bool execute(
             break;
 
         case '/':
-            printf("Go up\n");
-
             next = moveUp(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
-                printf("up oof");
                 return true;
             }
 
@@ -86,8 +83,6 @@ bool execute(
             break;
 
         case '<':
-            printf("Go left\n");
-
             next = moveLeft(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 return true;
@@ -101,8 +96,6 @@ bool execute(
             break;
 
         case '>':
-            printf("Go right\n");
-
             next = moveRight(buffer_ptr, *curr_head_ptr, (*curr_head_ptr)->mod);
             if ( next == EOF ) {
                 return true;
@@ -153,14 +146,12 @@ bool execute(
 
         // prints char value of mod
         case '.':
-            printf("SCAF> %c\n", w_head_ptr->mod);
             writeChar(buffer_ptr, w_head_ptr);
             break;
 
         // prints numeric value of mod
         case '=':
-            printf("SCAF= %i\n", w_head_ptr->mod);
-            // converting numeric mod to a char
+            // converting presumed numeric mod to a char
             w_head_ptr->mod += 0x30;
             writeChar(buffer_ptr, w_head_ptr);
             break;
@@ -233,15 +224,18 @@ bool execute(
             break;
 
         default:
-            printf("Load mod \"%c\"\n", opcode);
+            #ifdef _DEBUG
+                fprintf(stderr, "Load mod \"%c\"\n", opcode);
+            #endif
 
             // if the char represents a number, load it's numerical value
             // rather than the char itself
             if ( isNumber(opcode) ) {
                 opcode -= 0x30;
             }
-            printf("Loaded value (%i)\n", opcode);
-
+            #ifdef _DEBUG
+                fprintf(stderr, "Loaded value (%i)\n", opcode);
+            #endif
 
             (*curr_head_ptr)->mod = opcode;
             break;

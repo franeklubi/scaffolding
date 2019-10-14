@@ -2,7 +2,7 @@
 program=./sample_programs/sample.scaf
 
 main: main.c
-	gcc -Wall -ggdb *.c
+	gcc -Wall -ggdb -D_DEBUG *.c
 
 run: main.c
 	make

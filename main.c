@@ -21,31 +21,26 @@ int run(char* filename, Flags* f) {
     Lines* lines_buffer = dissectLines(start_ptr, file_size);
     free(start_ptr);
     if ( !lines_buffer ) {
-        fprintf(stderr, "Error with creating lines_buffer\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Error with creating lines_buffer\n");
+        #endif
         return 1;
     }
 
-    printf("\nFirst buffer draw:\n");
-    for ( int x = 0; x < lines_buffer->no_lines; x++ ) {
-        printf("LINE(%x) LEN(%x)> \"", x, lines_buffer->lines_len[x]);
-        for ( int y = 0; y < lines_buffer->lines_len[x]; y++ ) {
-            printf("%c", lines_buffer->lines[x][y]);
-        }
-        printf("\"\n");
-    }
-    printf("\n");
+
+    #ifdef _DEBUG
+        fprintf(stderr, "First buffer draw:\n");
+        printToStderr(lines_buffer);
+        fprintf(stderr, "\n");
+    #endif
 
     uint8_t error_code = interpret(lines_buffer, &r_head, &w_head);
 
-    printf("\n");
-    printf("\nLast buffer draw:\n");
-    for ( int x = 0; x < lines_buffer->no_lines; x++ ) {
-        printf("LINE(%x) LEN(%x)> \"", x, lines_buffer->lines_len[x]);
-        for ( int y = 0; y < lines_buffer->lines_len[x]; y++ ) {
-            printf("%c", lines_buffer->lines[x][y]);
-        }
-        printf("\"\n");
-    }
+    #ifdef _DEBUG
+        fprintf(stderr, "\nLast buffer draw:\n");
+        printToStderr(lines_buffer);
+        fprintf(stderr, "\n");
+    #endif
 
 
     // allocating memory for a string+5 in case non_destructive is set

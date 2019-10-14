@@ -11,7 +11,9 @@ char moveRight(
     Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
 ) {
     if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
-        fprintf(stderr, "Illegal position in moveRight\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Illegal position in moveRight\n");
+        #endif
         return EOF;
     }
 
@@ -58,7 +60,9 @@ char moveLeft(
     Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n
 ) {
     if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
-        fprintf(stderr, "Illegal position in moveRight\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Illegal position in moveLeft\n");
+        #endif
         return EOF;
     }
 
@@ -102,7 +106,9 @@ char moveLeft(
 
 char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
     if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
-        fprintf(stderr, "Illegal position in moveDown\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Illegal position in moveDown\n");
+        #endif
         return EOF;
     }
 
@@ -161,7 +167,9 @@ char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
 
 char moveUp(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
     if ( !isLegalPosition(buffer_ptr, curr_head_ptr) ) {
-        fprintf(stderr, "Illegal position in moveUp\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Illegal position in moveUp\n");
+        #endif
         return EOF;
     }
 
@@ -212,7 +220,6 @@ char moveUp(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
 
     // if the position is going to be legal - just move down dude
     curr_head_ptr->pos_y = pos_y_after;
-    printf("YO Y(%i) X(%i)\n", curr_head_ptr->pos_y, curr_head_ptr->pos_x);
     char next = buffer_ptr->lines[curr_head_ptr->pos_y][curr_head_ptr->pos_x];
 
     return next;
@@ -244,7 +251,9 @@ bool isLegalPosition(Lines* buffer_ptr, Head* head_ptr) {
 
 bool writeChar(Lines* buffer_ptr, Head* w_head_ptr) {
     if ( !isLegalPosition(buffer_ptr, w_head_ptr) ) {
-        fprintf(stderr, "Illegal position in writeChar\n");
+        #ifdef _DEBUG
+            fprintf(stderr, "Illegal position in writeChar\n");
+        #endif
         return false;
     }
 
