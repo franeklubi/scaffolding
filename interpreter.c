@@ -21,10 +21,7 @@ uint8_t interpret(ProgramState* state) {
 
     while ( !should_end ) {
 
-        should_end = execute(
-            state->buffer_ptr,
-            state->r_head_ptr, state->w_head_ptr, &state->curr_head_ptr
-        );
+        should_end = execute(state);
 
         state->r_head_ptr->pos_x++;
     }
@@ -34,10 +31,13 @@ uint8_t interpret(ProgramState* state) {
 }
 
 
-bool execute(
-    Lines* buffer_ptr,
-    Head* r_head_ptr, Head* w_head_ptr, Head** curr_head_ptr
-) {
+bool execute(ProgramState* state) {
+    Lines* buffer_ptr = state->buffer_ptr;
+    Head* r_head_ptr = state->r_head_ptr;
+    Head* w_head_ptr = state->w_head_ptr;
+    Head** curr_head_ptr = &state->curr_head_ptr;
+
+
     if ( !isLegalPosition(buffer_ptr, r_head_ptr) ) {
         #ifdef _DEBUG
             fprintf(stderr, "Read head reached line end (standard exit)\n");

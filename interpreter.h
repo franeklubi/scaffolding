@@ -26,10 +26,7 @@ ProgramState genProgramState(
 uint8_t interpret(ProgramState* state);
 
 // execute executes opcode and returns true if the execution should end
-bool execute(
-    Lines* buffer_ptr,
-    Head* r_head_ptr, Head* w_head_ptr, Head** curr_head_ptr
-);
+bool execute(ProgramState* state);
 
 // isNumber returns true if char represents a number
 bool isNumber(char c);
