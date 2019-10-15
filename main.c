@@ -34,7 +34,9 @@ int run(char* filename, Flags* f) {
         fprintf(stderr, "\n");
     #endif
 
-    uint8_t error_code = interpret(lines_buffer, &r_head, &w_head);
+    ProgramState state = genProgramState(lines_buffer, &r_head, &w_head);
+
+    uint8_t error_code = interpret(&state);
 
     #ifdef _DEBUG
         fprintf(stderr, "\nLast buffer draw:\n");

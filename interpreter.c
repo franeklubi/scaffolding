@@ -1,18 +1,32 @@
 #include "interpreter.h"
 
 
-uint8_t interpret(Lines* buffer_ptr, Head* r_head_ptr, Head* w_head_ptr) {
+ProgramState genProgramState(
+    Lines* buffer_ptr, Head* r_head_ptr, Head* w_head_ptr
+) {
+    ProgramState state;
+
+    state.buffer_ptr = buffer_ptr;
+    state.r_head_ptr = r_head_ptr;
+    state.w_head_ptr = w_head_ptr;
+    state.curr_head_ptr = w_head_ptr;
+
+    return state;
+}
+
+
+uint8_t interpret(ProgramState* state) {
 
     bool should_end = false;
-    Head* curr_head_ptr = w_head_ptr;
 
     while ( !should_end ) {
 
         should_end = execute(
-            buffer_ptr, r_head_ptr, w_head_ptr, &curr_head_ptr
+            state->buffer_ptr,
+            state->r_head_ptr, state->w_head_ptr, &state->curr_head_ptr
         );
 
-        r_head_ptr->pos_x++;
+        state->r_head_ptr->pos_x++;
     }
 
     // returning 0, as in 0 errors
