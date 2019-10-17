@@ -78,9 +78,8 @@ bool execute(ProgramState* state) {
             if ( next == EOF ) {
                 return true;
             }
-            // return true;
 
-            if ( *curr_head_ptr == r_head_ptr ) {
+            if ( *curr_head_ptr == r_head_ptr && r_head_ptr->mod != 0 ) {
                 (*curr_head_ptr)->pos_x--;
             }
             break;
@@ -91,7 +90,7 @@ bool execute(ProgramState* state) {
                 return true;
             }
 
-            if ( *curr_head_ptr == r_head_ptr ) {
+            if ( *curr_head_ptr == r_head_ptr && r_head_ptr->mod != 0 ) {
                 (*curr_head_ptr)->pos_x--;
             }
             break;
@@ -103,7 +102,7 @@ bool execute(ProgramState* state) {
             }
 
             // subtract from head pos instead of executing recursively
-            if ( *curr_head_ptr == r_head_ptr ) {
+            if ( *curr_head_ptr == r_head_ptr && r_head_ptr->mod != 0 ) {
                 (*curr_head_ptr)->pos_x--;
             }
 
@@ -116,7 +115,7 @@ bool execute(ProgramState* state) {
             }
 
             // subtract from head pos instead of executing recursively
-            if ( *curr_head_ptr == r_head_ptr ) {
+            if ( *curr_head_ptr == r_head_ptr && r_head_ptr->mod != 0 ) {
                 (*curr_head_ptr)->pos_x--;
             }
 

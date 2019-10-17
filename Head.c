@@ -124,7 +124,7 @@ char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
     if ( check_until >= buffer_ptr->no_lines ) {
         check_until = buffer_ptr->no_lines-1;
     }
-    for ( uint32_t y = curr_head_ptr->pos_y; y <= last_line_index; y++ ) {
+    for ( uint32_t y = curr_head_ptr->pos_y; y <= check_until; y++ ) {
         if ( buffer_ptr->lines_len[y] <= curr_head_ptr->pos_x ) {
             if ( curr_head_ptr->destructive ) {
                 append(
@@ -133,7 +133,7 @@ char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
                 );
             } else {
                 // imma end this program's whole career
-                fprintf(stderr, "Exit due to moveDown overflow\n");
+                fprintf(stderr, "Exit due to moveDown overflow(1)\n");
                 return EOF;
             }
         }
@@ -153,7 +153,7 @@ char moveDown(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
 
     // if it's non destructive - just tell me, i have a shotgun somewhere here
     } else if ( pos_y_after > last_line_index ) {
-        fprintf(stderr, "Exit due to moveDown overflow\n");
+        fprintf(stderr, "Exit due to moveDown overflow(2)\n");
         return EOF;
     }
 
@@ -195,7 +195,7 @@ char moveUp(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
                 );
             } else {
                 // fuck my shit up
-                fprintf(stderr, "Exit due to moveUp overflow\n");
+                fprintf(stderr, "Exit due to moveUp overflow(1)\n");
                 return EOF;
             }
         }
@@ -214,7 +214,7 @@ char moveUp(Lines* buffer_ptr, Head* curr_head_ptr, uint32_t n) {
 
         // if it's non destructive - just tell me, i have a shotgun somewhere here
     } else if ( pos_y_after < first_line_index ) {
-        fprintf(stderr, "Exit due to moveUp overflow\n");
+        fprintf(stderr, "Exit due to moveUp overflow(2)\n");
         return EOF;
     }
 
