@@ -189,10 +189,11 @@ bool execute(ProgramState* state) {
             break;
 
         // ? allows for conditional execution
-        // if the field before it is equal to 0 or '0' it advances r_head's pos by one
+        // if the field before it is equal to 0 or '0'
+        // it advances r_head's pos by 1
         //
         // if it's not - it decrements the value of the field checked and
-        // advances r_head's pos by two
+        // advances r_head's pos by 3
         //
         // if the positioning of ? turns out impossible to decrement the field
         // before it stops the execution
@@ -205,7 +206,7 @@ bool execute(ProgramState* state) {
             next = buffer_ptr->lines[r_head_ptr->pos_y][r_head_ptr->pos_x-1];
 
             // the amount r_head is gonna be incremented by
-            int amount = 2;
+            int amount = 3;
 
             // performing the check
             if ( next == 0 || next == '0' ) {
