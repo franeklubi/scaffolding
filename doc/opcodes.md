@@ -55,4 +55,4 @@ Characters that represent digits (between 48 and 57 inclusive) will be loaded in
     If the field before it is not equal to `0` or `'0'` - it moves the **Read Head** right by 3 and decrements the checked field.
 
 
-For usage examples read check out [sample programs](../sample_programs).
+For usage examples check out [sample programs](../sample_programs).
