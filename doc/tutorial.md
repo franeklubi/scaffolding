@@ -50,7 +50,7 @@ This bane of a script will never terminate.
 1. First loop:
     1. Starts with loading and printing first `a`, then `b`.
     2. Loads `0` (which is totally useless), then `7`.
-    3. Executes opcode `<` whereby the whole buffer shifts to the right (**Write Head** will expand the buffer if You instruct it to go out of bounds, so that it's position is always legal)
+    3. Executes opcode `<` whereby the whole buffer shifts to the right (**Write Head** will expand the buffer if You instruct it to go out of bounds, so that it's position is always legal).
 
 2. Subsequent loops:
     1. Loads `b`, then again `b` and prints it. The double `b` is a prominent example of the script overwriting the previous code.
