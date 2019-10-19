@@ -30,7 +30,9 @@ Output:
 
 ![down.scaf](./doc/assets/down.gif)
 
-Yo check out the [tutorial](./doc/tutorial.md).
+These visuals were made with [franeklubi/scaf-visualizer](https://github.com/franeklubi/scaf-visualizer).
+
+Yo and check out the [tutorial](./doc/tutorial.md).
 
 
 # Building
