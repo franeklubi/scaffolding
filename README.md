@@ -65,11 +65,13 @@ $ scaf [options] file...
 
 **A:** Check out the [tutorial](./doc/tutorial.md).
 
+<br>
 
 **Q:** but why?
 
-**A:** I thought this idea was stupid *it had to be done* (no it really didn't)
+**A:** I thought this idea was so stupid *it had to be done* (no it really didn't)
 
+<br>
 
 **Q:** Have I ran out of questions already?
 
