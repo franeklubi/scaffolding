@@ -30,7 +30,7 @@ This short script does two things:
     3. Loads `9`, then adds another `9` to **mod**.
     4. Executes opcode `x`.
 
-2. Loads 7 chars and prints them, sequentially until it reaches the end of the buffer:
+2. Loads 7 chars and prints them sequentially until it reaches the end of the buffer:
     1. Loads a char into the **Write Head**'s **mod**.
     2. Executes opcode `.`.
     3. Repeats that 7 times.
@@ -44,3 +44,17 @@ Output of [franeklubi/scaf-visualizer](https://github.com/franeklubi/scaf-visual
 ```scaf
 a.b.07<
 ```
+
+This bane of a script will never terminate.
+
+1. First loop:
+    1. Starts with loading and printing first `a`, then `b`.
+    2. Loads `0` (which is totally useless), then `7`.
+    3. Executes opcode `<` whereby the whole buffer shifts to the right (**Write Head** will expand the buffer if You instruct it to go out of bounds, so that it's position is always legal)
+
+2. Subsequent loops:
+    1. Loads `b`, then again `b` and prints it. The double `b` is a prominent example of the script overwriting the previous code.
+    2. Executes opcode `<` after loading in `0`, then `7`.
+
+Output of [franeklubi/scaf-visualizer](https://github.com/franeklubi/scaf-visualizer):
+![loop.scaf](./assets/loop.gif)
