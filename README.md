@@ -58,6 +58,11 @@ $ scaf [options] file...
 - `-h` 'help' - Display the help message.
 
 
+# Reference:
+- Visit the [list of all the opcodes](./doc/opcodes.md).
+- Haven't I mentioned the [tutorial](./doc/tutorial.md) yet?
+
+
 # FAQ
 (does it count if I am the one asking these?)
 
