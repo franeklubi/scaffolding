@@ -54,7 +54,7 @@ $ scaf [options] file...
 ### options:
 - `-f` 'force' - Don't check if file is a scaf source (The true chad flag).
 - `-n` 'non-destructive' - Output to filename.out (Don't overwrite file) (coward).
-- `-o <path>` 'output' - Output to <path> (Takes precedence over -n).
+- `-o <path>` 'output' - Output to `<path>` (Takes precedence over -n).
 - `-h` 'help' - Display the help message.
 
 
