@@ -37,6 +37,7 @@ This short script does two things:
     3. Repeats that 7 times.
 
 Output of [franeklubi/scaf-visualizer](https://github.com/franeklubi/scaf-visualizer):
+
 ![absolute.scaf](./assets/absolute.gif)
 
 
@@ -58,4 +59,5 @@ This bane of a script will never terminate.
     2. Executes opcode `<` after loading in `0`, then `7`.
 
 Output of [franeklubi/scaf-visualizer](https://github.com/franeklubi/scaf-visualizer):
+
 ![loop.scaf](./assets/loop.gif)

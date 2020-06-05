@@ -74,7 +74,7 @@ $ scaf [options] file...
 
 **Q:** but why?
 
-**A:** I thought this idea was so stupid *it had to be done* (no it really didn't)
+**A:** I thought this idea was so stupid that *it had to be done* (no it really hadn't).
 
 <br>
 
