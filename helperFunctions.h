@@ -19,9 +19,6 @@ Optional arguments:\n\
 "
 
 
-// struct needed for sys/stat
-struct stat sb;
-
 // struct containing all the switches controlled by flags
 typedef struct {
     bool force;

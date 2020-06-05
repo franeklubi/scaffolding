@@ -43,6 +43,9 @@ Flags parseFlags(int argc, char** argv) {
 
 
 bool verifyPath(char* path, Flags* f) {
+    // struct needed for sys/stat
+    struct stat sb;
+
     if ( !stat(path, &sb) == 0 ) {
         fprintf(stderr, "%s: No such file\n", path);
         return false;
